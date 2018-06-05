@@ -1,7 +1,7 @@
 # Instructions for opUnityDemo streaming: Windows
 
 
-## Setup instructions
+## Application setup instructions
 1. Open opUnityDemo.exe
 2. If the "Windows Security Alert" pops up, saying "Windows Firewall has blocked some features of this app", check both the checkboxes (Private networks & Public networks) and click "Allow access" (see instruction_p1)
 3. Choose "Streaming" in the demo app. 
@@ -13,16 +13,22 @@
 9. Doubleclick the rule for opUnityDemo.exe (or right click -> Properties). In "General" tab, select "Allow the connection" in "Action" field. Then click OK. 
 10. Restart the application and test again. 
 
-## Operations guide
+## Application operations guide
 	Key		|		Function
 -----------------------------------------------------
 	Esc		|		Quit the application
 	C 		|		Reset the character position to center
+	I 		|		Enable / disable interpolation
 	< >		|		Change the character model
 	M /		|		Change the scene model
 			|		.....Whatever else
 
-## Unity version
+## Project setup instructions
+1. Clone the whole repository.
+2. Obtain the "Models" (NOT available yet) and extracted into folder "unitydemo/Assets/Models"
+3. Open the project with Unity
+
+## Software
 Developed in Unity 2018.1.1f1 Personal.
 
 ## 3rd Party Packages:
