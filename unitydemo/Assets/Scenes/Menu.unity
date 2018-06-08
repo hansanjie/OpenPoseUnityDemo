@@ -887,6 +887,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c49f91666f026f246be1fc1a3ac40f25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mode: 0
 --- !u!1 &1849345564
 GameObject:
   m_ObjectHideFlags: 0
@@ -1128,12 +1129,12 @@ GameObject:
   - component: {fileID: 2129947358}
   - component: {fileID: 2129947357}
   m_Layer: 5
-  m_Name: Button (2)
+  m_Name: BVH
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2129947356
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1191,7 +1192,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2129947358}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1287432808}
+        m_MethodName: SelectBvh
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &2129947358

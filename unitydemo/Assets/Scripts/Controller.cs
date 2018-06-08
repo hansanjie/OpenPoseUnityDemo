@@ -14,6 +14,8 @@ namespace opdemo
 
         private PlayMode mode = PlayMode.Default;
 
+        private bool inMain = false;
+
         // Interface
         public static PlayMode Mode { get { try { if (instance.mode == PlayMode.Default) return defaultMode; else return instance.mode; } catch { return defaultMode; } } set { try { instance.mode = value; } catch { } } }
         public static void StartPlay(PlayMode mode = PlayMode.Default)
@@ -34,6 +36,12 @@ namespace opdemo
             LoadMain();
         }
 
+        public void SelectBvh()
+        {
+            mode = PlayMode.FileBvh;
+            LoadMain();
+        }
+
         private void Awake()
         {
             instance = this;
@@ -42,14 +50,27 @@ namespace opdemo
         private void LoadMain()
         {
             DontDestroyOnLoad(gameObject);
+            inMain = true;
             UnityEngine.SceneManagement.SceneManager.LoadScene("Main");
+        }
+
+        private void LoadMenu()
+        {
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Menu");
+            Destroy(gameObject);
         }
 
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                Application.Quit();
+                if (inMain)
+                {
+                    LoadMenu();
+                } else
+                {
+                    Application.Quit();
+                }                
             }
         }
     }

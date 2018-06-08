@@ -46,6 +46,8 @@ Corridor/Library/metadata/
 
 
 # ============ #
-# Large models #
+# Custom ignore #
 # ============ #
 /Assets/Models/
+/Assets/Standard Assets/
+/Assets/Trilib/

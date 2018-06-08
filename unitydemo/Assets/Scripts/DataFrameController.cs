@@ -10,11 +10,11 @@ namespace opdemo
         // Singleton
         private static DataFrameController instance;
 
-        [SerializeField] string fileName = "input.json";
+        [SerializeField] string fileName = "input";
         [SerializeField] float frameTime = 0.05f;
         [SerializeField] float speedMultiplier = 1.2f;
         private float accumulateFrameTime = 0f;
-        private AnimDataSet dataSet;
+        private AnimDataSet dataSet = new AnimDataSet();
         private int currentFrameNumber = 0;
         private bool playingAnimation = false;
 
@@ -25,9 +25,9 @@ namespace opdemo
         public static AnimData GetCurrentFrame()
         {
             if (IsReady)
-                return new AnimData(instance.dataSet.dataList[instance.currentFrameNumber]);
+                return instance.dataSet.dataList[instance.currentFrameNumber];
             else
-                return new AnimData("");
+                return new AnimData();
         }
 
         private void Awake()
@@ -37,16 +37,34 @@ namespace opdemo
 
         private void Start()
         {
-            if (Controller.Mode == PlayMode.FileJson) InitData();
+            if (Controller.Mode == PlayMode.FileJson) InitDataJson(fileName + ".json");
+            if (Controller.Mode == PlayMode.FileBvh) InitDataBvh(fileName + ".bvh");
         }
 
-        private void InitData()
+        private void InitDataJson(string file)
         {
-            string filePath = Path.Combine(Application.dataPath, fileName);
+            string filePath = Path.Combine(Application.dataPath, file);
             if (File.Exists(filePath))
             {
                 string dataAsJson = File.ReadAllText(filePath);
-                dataSet = new AnimDataSet(dataAsJson);
+                dataSet = AnimDataSet.FromJsonData(dataAsJson);
+                frameTime = dataSet.frameTime;
+                StartCoroutine(PlayAnimationCoroutine());
+            }
+            else
+            {
+                Debug.Log("File not exists");
+            }
+        }
+
+        private void InitDataBvh(string file)
+        {
+            string filePath = Path.Combine(Application.dataPath, file);
+            if (File.Exists(filePath))
+            {
+                string data = File.ReadAllText(filePath);
+                dataSet = AnimDataSet.FromBvhData(data);
+                frameTime = dataSet.frameTime;
                 StartCoroutine(PlayAnimationCoroutine());
             }
             else

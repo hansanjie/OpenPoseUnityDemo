@@ -23,7 +23,7 @@ namespace opdemo
         // Camera control
         public float ControlDistanceSpeed = 1.1f;
         public float ControlRotateSpeed = 240f;
-        public float MinDistance = 1.0f;
+        public float MinDistance = 0.6f;
         public Vector2 ControlRotateLimit = new Vector2(0f, 60f);
 
         public float FollowRotatingCoeff = 0.5f;
@@ -77,6 +77,7 @@ namespace opdemo
             //float deltaAngle = FollowRotatingCoeff * Mathf.Sqrt(angleDiff) * Time.deltaTime; // index 1/2
             float deltaAngle = FollowRotatingCoeff * angleDiff * Mathf.Abs(angleDiff) * Time.deltaTime; // index 2
             CameraJoint.Rotate(axisRotate, deltaAngle, Space.World);
+            CameraJoint.localRotation = Quaternion.Euler(CameraJoint.localRotation.eulerAngles - CameraJoint.localRotation.eulerAngles.z * Vector3.forward); // filter out z rotation
 
             // Translation
             float distanceDiff = Vector3.Dot(GoalPos - MyCamera.position, MyCamera.forward) - InitDistance;

@@ -23,7 +23,7 @@ namespace opdemo
         private Dictionary<int, Quaternion> SavedRotations = new Dictionary<int, Quaternion>();
         private Dictionary<int, Quaternion> LastRotations = new Dictionary<int, Quaternion>();
         private Dictionary<int, Quaternion> UpdatedRotations = new Dictionary<int, Quaternion>();
-        private AnimData frameData;
+        private AnimData frameData = new AnimData();
         private float interpolateFrameRest;
 
         private Vector3 InitRootPosition;
@@ -83,19 +83,19 @@ namespace opdemo
                 SavedRotations[i] = Joints[i].localRotation;
             }
 
-            // TODO: Unity and OP are using different coordinates, writing a new script for transiting. 
+            // TODO: Unity and OP are using different coordinates, write a new script for transiting. 
             // global translation
             Joints[0].position = Vector3.Lerp(SavedGlobalPosition, (-frameData.totalPosition / 100f) + Offset, interpolatePoint);
             //else Joints[0].position = (-frameData.totalPosition / 100f) + Offset;
             // global rotation
-            Vector3 axisAngle = new Vector3(-frameData.jointAngles[0].x, frameData.jointAngles[0].y, frameData.jointAngles[0].z);
+            /*Vector3 axisAngle = new Vector3(-frameData.jointAngles[0].x, frameData.jointAngles[0].y, frameData.jointAngles[0].z);
             Joints[0].rotation = InitRotations[0];
             Joints[0].Rotate(axisAngle, axisAngle.magnitude * Mathf.Rad2Deg, Space.World);
             Joints[0].Rotate(Vector3.left, 180f, Space.World);
             UpdatedRotations[0] = Joints[0].localRotation;
-            Joints[0].rotation = InitRotations[0];
-            // joints rotations
-            for (int i = 1; i < Joints.Count; i++)
+            Joints[0].rotation = InitRotations[0];*/
+            // global rotation & joints rotations
+            for (int i = 0; i < Joints.Count; i++)
             {
                 if (Joints[i] == null) continue;
                 Joints[i].rotation = InitRotations[i];// * frameData.jointAngleToRotation(i);
@@ -105,6 +105,7 @@ namespace opdemo
                 UpdatedRotations[i] = Joints[i].localRotation;
                 Joints[i].rotation = InitRotations[i];
             }
+            //UpdatedRotations[0] = Quaternion.Euler(180f, 0f, 0f) * UpdatedRotations[0]; // upside down?
             // apply global and joints rotations
             for (int i = 0; i < Joints.Count; i++)
             {
@@ -149,7 +150,7 @@ namespace opdemo
                     // Update data
                     if (UDPReceiver.IsDataNew())
                     {
-                        frameData.Parse(UDPReceiver.ReceivedData);
+                        frameData = AnimData.FromJsonData(UDPReceiver.ReceivedData);
                         interpolateFrameRest = UDPReceiver.EstimatedRestFrameTime;
                         // new insert coroutine for new data
                         if (!AllowInterpolation)
@@ -165,6 +166,16 @@ namespace opdemo
                     }
                     break;
                 case PlayMode.FileJson:
+                    frameData = DataFrameController.GetCurrentFrame();
+                    interpolateFrameRest = DataFrameController.RestFrameTime;
+                    if (frameData.isValid)
+                    {
+                        if (AllowInterpolation) UpdateModel(Time.deltaTime / interpolateFrameRest);
+                        else UpdateModel();
+                    }
+                    break;
+
+                case PlayMode.FileBvh:
                     frameData = DataFrameController.GetCurrentFrame();
                     interpolateFrameRest = DataFrameController.RestFrameTime;
                     if (frameData.isValid)
