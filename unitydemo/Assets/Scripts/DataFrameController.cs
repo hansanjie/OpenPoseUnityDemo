@@ -21,7 +21,7 @@ namespace opdemo
         // Interface
         public static bool IsReady { get { try { return instance.dataSet.isValid; } catch { return false; } } }
         public static float RestFrameTime { get { return instance.frameTime - instance.accumulateFrameTime; } }
-        public static List<Vector3> DefaultSkeletonData { get { if (IsReady) return instance.dataSet.default_skeleton; else return new List<Vector3>(); } }
+        //public static List<Vector3> DefaultSkeletonData { get { if (IsReady) return instance.dataSet.default_skeleton; else return new List<Vector3>(); } }
         public static AnimData GetCurrentFrame()
         {
             if (IsReady)
@@ -111,18 +111,21 @@ namespace opdemo
 
         IEnumerator PlayAnimationCoroutine()
         {
+            //float totalTime = 0f;
             while (true)
             {
-                yield return new WaitUntil(() => { return playingAnimation; });
-
-                accumulateFrameTime += Time.deltaTime;
-                if (accumulateFrameTime > frameTime)
+                if (playingAnimation)
                 {
-                    accumulateFrameTime -= frameTime;
-                    if (currentFrameNumber < dataSet.dataList.Count - 1) currentFrameNumber++;
-                    else playingAnimation = false;
-                    yield return null;
+                    //totalTime += Time.deltaTime;
+                    accumulateFrameTime += Time.deltaTime;
+                    while (accumulateFrameTime > frameTime)
+                    {
+                        accumulateFrameTime -= frameTime;
+                        if (currentFrameNumber < dataSet.dataList.Count - 1) currentFrameNumber++;
+                        else playingAnimation = false;
+                    }
                 }
+                yield return new WaitForEndOfFrame();
             }
         }
     }

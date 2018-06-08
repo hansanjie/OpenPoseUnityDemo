@@ -87,13 +87,13 @@ namespace opdemo
             isValid = false;
             frameTime = 0.033333f;
             dataList = new List<AnimData>();
-            default_skeleton = new List<Vector3>();
+            //default_skeleton = new List<Vector3>();
         }
 
         public bool isValid;
         public float frameTime;
         public List<AnimData> dataList;
-        public List<Vector3> default_skeleton;
+        //public List<Vector3> default_skeleton;
         
         public static AnimDataSet FromJsonData(string text)
         {

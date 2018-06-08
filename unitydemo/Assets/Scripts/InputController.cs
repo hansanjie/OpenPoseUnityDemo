@@ -47,9 +47,18 @@ namespace opdemo
             CharacterAnimController.AllowInterpolation = !CharacterAnimController.AllowInterpolation;
         }
 
+        public void ReCenter()
+        {
+            GetComponent<SceneController>().Recenter();
+        }
+
         // Update is called once per frame
         void Update()
         {
+            if (Input.GetKeyDown(KeyCode.C))
+            {
+                ReCenter();
+            }
             // TODO
             // scene & character control
             /*if (Input.GetKeyDown(KeyCode.Comma))

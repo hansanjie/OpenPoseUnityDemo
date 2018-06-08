@@ -1,5 +1,19 @@
 # Instructions for opUnityDemo streaming: Windows
 
+## Local cable network setting: 
+### Windows: connect the cable and disable other networks. 
+### Ubuntu: 
+1. Connect the cable. 
+2. Get to Network Manager -> Connections (or Network Connections)
+3. Create new wired connection. 
+4. under iPv4, use settings: 
+	Method: Manual;
+	Address: 169.254.123.105;
+	Netmask: 255.255.0.0;
+	Gateway: leave blank
+5. Save and run to test.
+
+Reference: https://unix.stackexchange.com/questions/251057/can-i-connect-a-ubuntu-linux-laptop-to-a-windows-10-laptop-via-ethernet-cable?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
 
 ## Application setup instructions
 1. Open opUnityDemo.exe
@@ -25,8 +39,9 @@
 
 ## Project setup instructions
 1. Clone the whole repository.
-2. Obtain the "Models" (NOT available yet) and extracted into folder "unitydemo/Assets/Models"
-3. Open the project with Unity
+2. Obtain the "Models" (NOT available yet) and extracted into folder "unitydemo/Assets/Models".
+3. Import the "Standard Assets/Environment" for the water effect. 
+3. Open the project with Unity.
 
 ## Software
 Developed in Unity 2018.1.1f1 Personal.

@@ -11,8 +11,8 @@ namespace opdemo
         public static Vector3 Offset = new Vector3(0f, 1f, 0f);
         public static bool AllowInterpolation = true;
         public static int InsertStepNumber = 2;
-        private static float DisplayedFrameRate = 0f;
-        private static float LastDisplayedFrameTime = 0f;
+        //private static float DisplayedFrameRate = 0f;
+        //private static float LastDisplayedFrameTime = 0f;
 
         [SerializeField] bool AllowFacialAnim = false;
         [SerializeField] List<Transform> Joints;
@@ -140,10 +140,6 @@ namespace opdemo
         // Update is called once per frame
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.C))
-            {
-                Recenter();
-            }
             switch (Controller.Mode)
             {
                 case PlayMode.Stream:

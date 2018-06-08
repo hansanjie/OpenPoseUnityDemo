@@ -9,7 +9,10 @@ namespace opdemo
 {
     public class BvhPaser
     {
+        // for OP bvh data
         public static int[] indexMap = { 0, 0, 1, 4, 7, -1, 0, 2, 5, 8, -1, 0, 3, 6, 9, 12, -1, 9, 13, 16, 18, 20, 22, 23, 24, -1, 20, 26, 27, 28, -1, 20, 30, 31, 32, -1, 20, 34, 35, 36, -1, 20, 38, 39, 40, -1, 9, 14, 17, 19, 21, 42, 43, 44, -1, 21, 46, 47, 48, -1, 21, 50, 51, 52, -1, 21, 54, 55, 56, -1, 21, 58, 59, 60, -1 };
+        // for CMU mocap data
+        //public static int[] indexMap = { 0, -1, 0, 1, 4, 7, -1, -1, 0, 2, 5, 8, -1, 0, 3, 6, 9, 12, 15, -1, 9, 13, 16, 18, 20, 26, -1, 22, -1, 9, 14, 17, 19, 21, 46, -1, 42, -1, };
 
         public static AnimDataSet BvhToDataSet(string data)
         {
@@ -74,29 +77,6 @@ namespace opdemo
             //Debug.Log(dataSet.dataLis);
             return dataSet;
         }
-        
-        public static int AFunc(string data) // deprecated
-        {
-            AnimDataSet dataSet = new AnimDataSet();
-            string[] lines = data.Split('\n');
-            int i = 0;
-            while (!lines[i].StartsWith("MOTION")) { i++; }
-            while (!lines[i].StartsWith("Frames:")) { i++; }
-            int framesNum = int.Parse(lines[i].Trim().Substring(8));
-            while (!lines[i].StartsWith("Frame Time:")) { i++; }
-            int frameTime = int.Parse(lines[i].Trim().Substring(10));
-
-            for (i++; i < lines.Length; i++)
-            {
-                // each AnimData
-                string[] numbers = lines[i].Split(' ');
-                //AnimData animData = new AnimData("");
-                //animData
-                //datafloat.Parse(numbers[0])
-            }
-
-            return 1;
-        }
     }
 
     public class BvhHierarchy
@@ -119,12 +99,12 @@ namespace opdemo
             {
                 
                 string str_noTab = Regex.Replace(str, @"\t", "");
-                List<string> args = str_noTab.Split(' ').ToList<string>();
+                List<string> args = str_noTab.Split(' ').ToList();
                 //if (args[0].StartsWith("\t")) Debug.Log("here");
                 if (args.Count == 0) continue;
                 try
                 {
-                    switch (args[0])
+                    switch (args[0].Trim())
                     {
                         case "HIERARCHY": currentSection = Section.HIERARCHY; break;
                         case "MOTION": currentSection = Section.MOTION; break;
@@ -167,6 +147,7 @@ namespace opdemo
                                 }
                             } else
                             {
+                                Debug.Log(args[0][9].ToString());
                                 Debug.LogWarning("Grammar not desired: " + str_noTab);
                             }
                             break;
