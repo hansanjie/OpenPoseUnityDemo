@@ -30,7 +30,7 @@ Reference: https://unix.stackexchange.com/questions/251057/can-i-connect-a-ubunt
 ## Application operations guide
 	Key		|		Function
 -----------------------------------------------------
-	Esc		|		Quit the application
+	Esc		|		Back to the menu / Quit the application
 	C 		|		Reset the character position to center
 	I 		|		Enable / disable interpolation
 	< >		|		Change the character model

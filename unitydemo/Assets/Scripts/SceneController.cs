@@ -6,7 +6,6 @@ namespace opdemo
 {
     public class SceneController : MonoBehaviour
     {
-
         // Singleton
         //private static SceneController instance;
 
@@ -15,6 +14,8 @@ namespace opdemo
         private int _HumanModelIndex = 0, _SceneModelIndex = 0;
         public int HumanModelIndex { set { setHumanModel(value); } get { return _HumanModelIndex; } }
         public int SceneModelIndex { set { setSceneModel(value); } get { return _SceneModelIndex; } }
+        public CamFocusPart CamFocus = CamFocusPart.Hip;
+
 
         // Use this for initialization
         void Start()
@@ -69,6 +70,12 @@ namespace opdemo
             HumanModels[HumanModelIndex].GetComponent<CharacterAnimController>().Recenter();
         }
 
+        public void SwitchFocus(int index)
+        {
+            CamFocus = (CamFocusPart)index;
+            SetCameraFocus();
+        }
+
         private void setHumanModel(int index)
         {
             if (index < 0)
@@ -86,7 +93,7 @@ namespace opdemo
                 HumanModels[_HumanModelIndex].SetActive(false);
                 _HumanModelIndex = index;
                 HumanModels[_HumanModelIndex].SetActive(true);
-                CameraController.FocusCenter = HumanModels[_HumanModelIndex].GetComponent<CharacterAnimController>().GetCenter();
+                SetCameraFocus();
             }
         }
 
@@ -110,6 +117,13 @@ namespace opdemo
             }
         }
 
+        private void SetCameraFocus()
+        {
+            Transform center = HumanModels[_HumanModelIndex].GetComponent<CharacterAnimController>().GetFocusCenter(CamFocus);
+            if (center != null)
+                CameraController.FocusCenter = center;
+        }
+
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.Comma))
@@ -130,5 +144,12 @@ namespace opdemo
                 NextScene();
             }
         }
+    }
+
+    public enum CamFocusPart
+    {
+        Hip, 
+        Chest, 
+        Head
     }
 }

@@ -12,6 +12,7 @@ namespace opdemo
         {
             isValid = false;
             jointAngles = new List<Vector3>();
+            facialParams = new List<float>();
         }
 
         public static AnimData FromJsonData(string data)
@@ -40,6 +41,8 @@ namespace opdemo
         public bool isValid;
         public Vector3 totalPosition;
         public List<Vector3> jointAngles;
+        public List<float> facialParams;
+        public float rootHeight;
 
         public void ResetJointAngles(int size = 62)
         {
@@ -74,7 +77,8 @@ namespace opdemo
 
         public static Vector3 AxisAngleToEuler(Vector3 axisAngle)
         {
-            Vector3 euler = Quaternion.AngleAxis(axisAngle.magnitude * Mathf.Rad2Deg, axisAngle).eulerAngles;
+            Vector3 unityAxisAngle = new Vector3(axisAngle.x, axisAngle.y, axisAngle.z);
+            Vector3 euler = Quaternion.AngleAxis(unityAxisAngle.magnitude * Mathf.Rad2Deg, unityAxisAngle).eulerAngles;
             return euler + Vector3.left * 180f;
         }
     }
