@@ -75,10 +75,22 @@ namespace opdemo
                 * Quaternion.AngleAxis(angle.z, Vector3.back);
         }
 
+        public static Vector3 ToUnityAngles(Vector3 angle) // deprecated
+        {
+            return (Quaternion.AngleAxis(angle.z, Vector3.back)
+                * Quaternion.AngleAxis(angle.y, Vector3.down)
+                * Quaternion.AngleAxis(angle.x, Vector3.right)).eulerAngles;
+        }
+
         public static Vector3 AxisAngleToEuler(Vector3 axisAngle)
         {
-            Vector3 unityAxisAngle = new Vector3(axisAngle.x, axisAngle.y, axisAngle.z);
+            Vector3 unityAxisAngle = new Vector3(-axisAngle.x, axisAngle.y, axisAngle.z);
+            //Quaternion rot = Quaternion.AngleAxis(unityAxisAngle.magnitude * Mathf.Rad2Deg, unityAxisAngle);
+            //Matrix4x4.rota
+            //rot = Quaternion.AngleAxis(1f, Vector3.left) * Quaternion.AngleAxis(1f, Vector3.down) * Quaternion.AngleAxis(1f, Vector3.back);
+
             Vector3 euler = Quaternion.AngleAxis(unityAxisAngle.magnitude * Mathf.Rad2Deg, unityAxisAngle).eulerAngles;
+
             return euler + Vector3.left * 180f;
         }
     }

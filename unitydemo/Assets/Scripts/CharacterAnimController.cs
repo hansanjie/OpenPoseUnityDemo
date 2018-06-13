@@ -235,13 +235,20 @@ namespace opdemo
                 if (Joints[i] == null) continue;
                 SavedRotations[i] = Joints[i].localRotation;
             }
-            for (int i = 0; i < Joints.Count; i++)
+            // Root rotation
+            Joints[0].rotation = InitRotations[0];
+            Joints[0].Rotate(frameData.jointAngles[0], Space.World);
+            NextRotations[0] = Joints[0].localRotation;
+            Joints[0].rotation = InitRotations[0];
+            // Other rotation
+            for (int i = 1; i < Joints.Count; i++)
             {
                 if (Joints[i] == null) continue;
                 Joints[i].rotation = InitRotations[i];// * frameData.jointAngleToRotation(i);
-                Joints[i].Rotate(Vector3.right, frameData.jointAngles[i].x, Space.World);
-                Joints[i].Rotate(Vector3.down, frameData.jointAngles[i].y, Space.World);
-                Joints[i].Rotate(Vector3.back, frameData.jointAngles[i].z, Space.World);
+                Joints[i].Rotate(AnimData.ToUnityAngles(frameData.jointAngles[i]), Space.World);
+                //Joints[i].Rotate(Vector3.right, frameData.jointAngles[i].x, Space.World);
+                //Joints[i].Rotate(Vector3.down, frameData.jointAngles[i].y, Space.World);
+                //Joints[i].Rotate(Vector3.back, frameData.jointAngles[i].z, Space.World);
                 NextRotations[i] = Joints[i].localRotation;
                 Joints[i].rotation = InitRotations[i];
             }
