@@ -10,7 +10,6 @@ namespace opdemo
         // Singleton
         private static DataFrameController instance;
 
-        [SerializeField] string fileName = "input";
         [SerializeField] float frameTime = 0.05f;
         [SerializeField] float speedMultiplier = 1.2f;
         private float accumulateFrameTime = 0f;
@@ -19,6 +18,7 @@ namespace opdemo
         private bool playingAnimation = false;
 
         // Interface
+        public static string FileName = "input";
         public static bool IsReady { get { try { return instance.dataSet.isValid; } catch { return false; } } }
         public static float RestFrameTime { get { return instance.frameTime - instance.accumulateFrameTime; } }
         //public static List<Vector3> DefaultSkeletonData { get { if (IsReady) return instance.dataSet.default_skeleton; else return new List<Vector3>(); } }
@@ -37,8 +37,8 @@ namespace opdemo
 
         private void Start()
         {
-            if (Controller.Mode == PlayMode.FileJson) InitDataJson(fileName + ".json");
-            if (Controller.Mode == PlayMode.FileBvh) InitDataBvh(fileName + ".bvh");
+            if (Controller.Mode == PlayMode.FileJson) InitDataJson(FileName + ".json");
+            if (Controller.Mode == PlayMode.FileBvh) InitDataBvh(FileName + ".bvh");
         }
 
         private void InitDataJson(string file)

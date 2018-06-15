@@ -6,9 +6,16 @@ namespace opdemo
 {
     public class Controller : MonoBehaviour
     {
-
         // Singleton
         private static Controller instance = null;
+
+        // Code settings
+        public bool DefaultAllowInterpolation = false;
+        public int InBetweenStepNumber = 2;
+        public bool AllowFeetStablization = true;
+        public int StablizationCompareSequence = 3;
+        public float StableMovementThreshold = 0.02f;
+        public string DefaultInputFileName = "input";
 
         private static PlayMode defaultMode = PlayMode.Stream;
 
@@ -45,6 +52,16 @@ namespace opdemo
         private void Awake()
         {
             instance = this;
+        }
+
+        private void Start()
+        {
+            CharacterAnimController.AllowInterpolation = DefaultAllowInterpolation;
+            CharacterAnimController.InsertStepNumber = InBetweenStepNumber;
+            CharacterAnimController.AllowVerticalStablization = AllowFeetStablization;
+            CharacterAnimController.CompareDifference = StablizationCompareSequence;
+            CharacterAnimController.VerticalMovementThres = StableMovementThreshold;
+            DataFrameController.FileName = DefaultInputFileName;
         }
 
         private void LoadMain()

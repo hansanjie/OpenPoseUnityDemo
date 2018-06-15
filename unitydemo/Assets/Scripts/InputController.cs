@@ -9,6 +9,8 @@ namespace opdemo
         // Singleton
         //private static InputController Instance;
 
+        [SerializeField] GameObject InterpolationCheckmark;
+
         private void Awake()
         {
             //Instance = this;
@@ -17,34 +19,17 @@ namespace opdemo
         // Use this for initialization
         void Start()
         {
-
-        }
-
-        // scene & character control
-        void LastHuman()
-        {
-
-        }
-
-        void NextHuman()
-        {
-
-        }
-
-        void LastScene()
-        {
-
-        }
-
-        void NextScene()
-        {
-
+            InterpolationCheckmark.SetActive(CharacterAnimController.AllowInterpolation);
         }
 
         // anim control
         public void ToggleInterpolation()
         {
             CharacterAnimController.AllowInterpolation = !CharacterAnimController.AllowInterpolation;
+            if (InterpolationCheckmark != null)
+            {
+                InterpolationCheckmark.SetActive(CharacterAnimController.AllowInterpolation);
+            }
         }
 
         public void ReCenter()

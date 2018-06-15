@@ -120,6 +120,7 @@ namespace opdemo
 
             // Control camera
             Vector3 euler = CameraCenter.localRotation.eulerAngles + new Vector3(-deltaScreenPos.y, deltaScreenPos.x, 0f) * ControlRotateSpeed * Time.deltaTime;
+            euler.x = (euler.x + 180f) % 360f - 180f; // -180 -- +180
             if (euler.x < ControlRotateLimit.x) euler.x = ControlRotateLimit.x;
             else if (euler.x > ControlRotateLimit.y) euler.x = ControlRotateLimit.y;
             CameraCenter.localRotation = Quaternion.Euler(euler);
