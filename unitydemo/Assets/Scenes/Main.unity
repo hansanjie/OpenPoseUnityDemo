@@ -5145,8 +5145,8 @@ MonoBehaviour:
   ControlRotateSpeed: 240
   MinDistance: 0.3
   ControlRotateLimit: {x: 0, y: 45}
-  FollowRotatingCoeff: 5
-  FollowTranslatingCoeff: 3
+  FollowRotatingCoeff: 4
+  FollowTranslatingCoeff: 2
   FollowRotatingThres: 0.01
   FollowTranslatingThres: 0.01
 --- !u!1 &1955008936

@@ -112,7 +112,7 @@ namespace opdemo
 
         private void InputText(string text)
         {
-            //Debug.Log(">> " + text);
+            Debug.Log(">> " + text);
             receivedData = text;
             newDataFlag = true;
 
