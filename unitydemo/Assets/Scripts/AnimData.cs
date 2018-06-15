@@ -26,8 +26,7 @@ namespace opdemo
                 try
                 {
                     AnimData animData = JsonUtility.FromJson<AnimData>(text);
-                    animData.jointAngles[0] = AxisAngleToEuler(animData.jointAngles[0]); // transit angle axis to euler
-                    animData.isValid = true;
+                    Validate(animData);
                     return animData;
                 }
                 catch (Exception err)
@@ -68,6 +67,22 @@ namespace opdemo
             return ToRotation(jointAngles[index]);
         }
 
+        public static void Validate(AnimData data)
+        {
+            if (data.jointAngles.Count >= 62)
+            {
+                data.jointAngles[0] = AxisAngleToUnityEuler(data.jointAngles[0]); // transit angle axis to euler
+                for (int i = 1; i < data.jointAngles.Count; i++)
+                {
+                    data.jointAngles[i] = AdamToUnityEuler(data.jointAngles[i]);
+                }
+                data.isValid = true;
+            } else
+            {
+                Debug.Log("too short data length");
+            }
+        }
+
         public static Quaternion ToRotation(Vector3 angle) // deprecated
         {
             return Quaternion.AngleAxis(angle.x, Vector3.right)
@@ -75,23 +90,21 @@ namespace opdemo
                 * Quaternion.AngleAxis(angle.z, Vector3.back);
         }
 
-        public static Vector3 ToUnityAngles(Vector3 angle) // deprecated
+        public static Vector3 AdamToUnityEuler(Vector3 angle)
         {
             return (Quaternion.AngleAxis(angle.z, Vector3.back)
                 * Quaternion.AngleAxis(angle.y, Vector3.down)
                 * Quaternion.AngleAxis(angle.x, Vector3.right)).eulerAngles;
         }
 
-        public static Vector3 AxisAngleToEuler(Vector3 axisAngle)
+        public static Vector3 AxisAngleToUnityEuler(Vector3 axisAngle)
         {
-            Vector3 unityAxisAngle = new Vector3(-axisAngle.x, axisAngle.y, axisAngle.z);
-            //Quaternion rot = Quaternion.AngleAxis(unityAxisAngle.magnitude * Mathf.Rad2Deg, unityAxisAngle);
-            //Matrix4x4.rota
-            //rot = Quaternion.AngleAxis(1f, Vector3.left) * Quaternion.AngleAxis(1f, Vector3.down) * Quaternion.AngleAxis(1f, Vector3.back);
+            Vector3 adamAxisInUnityOrder = new Vector3(axisAngle.y, axisAngle.z, -axisAngle.x);
+            Vector3 adamAngleInUnityOrder = Quaternion.AngleAxis(adamAxisInUnityOrder.magnitude * Mathf.Rad2Deg, adamAxisInUnityOrder).eulerAngles;
+            Vector3 adamEuler = new Vector3(adamAngleInUnityOrder.z, -adamAngleInUnityOrder.x, -adamAngleInUnityOrder.y);
+            Vector3 euler = AdamToUnityEuler(adamEuler);
 
-            Vector3 euler = Quaternion.AngleAxis(unityAxisAngle.magnitude * Mathf.Rad2Deg, unityAxisAngle).eulerAngles;
-
-            return euler + Vector3.left * 180f;
+            return euler;
         }
     }
 
@@ -119,8 +132,7 @@ namespace opdemo
                 dataSet = JsonUtility.FromJson<AnimDataSet>(text);
                 foreach (AnimData data in dataSet.dataList)
                 {
-                    data.jointAngles[0] = AnimData.AxisAngleToEuler(data.jointAngles[0]); // transit angle axis to euler
-                    data.isValid = true;
+                    AnimData.Validate(data);
                 }
                 dataSet.isValid = true;
             }

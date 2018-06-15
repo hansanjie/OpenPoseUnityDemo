@@ -13,13 +13,15 @@ namespace opdemo
         public static bool AllowInterpolation = false;
         public static int InsertStepNumber = 2;
         public static bool AllowVerticalStablization = true;
-        public static int CompareDifference = 5;
+        public static int CompareDifference = 3;
         public static float VerticalMovementThres = 0.02f;
         //private static float DisplayedFrameRate = 0f;
         //private static float LastDisplayedFrameTime = 0f;
 
         // Model settings
         [SerializeField] bool AllowFacialAnim = true;
+        [SerializeField] float facialParamMultiplier = 2f;
+        [SerializeField] SkinnedMeshRenderer blendMesh;
         [SerializeField] List<Transform> Joints;
         [SerializeField] List<Transform> FacialJoints;
         [SerializeField] List<Transform> LowerFeetIndicators;
@@ -74,8 +76,6 @@ namespace opdemo
             return true;
         }
 
-        //private Vector3 HeightDifference;
-
         void Start()
         {
             if (Joints.Count == 0)
@@ -86,7 +86,7 @@ namespace opdemo
             for (int i = 0; i < Joints.Count; i++)
             {
                 if (Joints[i] == null) continue;
-                InitRotations.Add(i, Joints[i].rotation);
+                InitRotations.Add(i, Joints[i].localRotation);
                 SavedRotations.Add(i, Joints[i].localRotation);
                 NextRotations.Add(i, Joints[i].localRotation);
                 //Instantiate(JointObject, Joints[i], false);
@@ -215,7 +215,7 @@ namespace opdemo
             // Vertical stablizer
             if (AllowVerticalStablization && LowerFeetIndicators.Count > 0)
             {
-                if (!forceDisableVerticalStablizing)
+                //if (!forceDisableVerticalStablizing)
                 {
                     //Joints[0].Translate(0f, HeightDiff, 0f, Space.World);
                     NextRootPosition.y += HeightDiff;
@@ -235,58 +235,64 @@ namespace opdemo
                 if (Joints[i] == null) continue;
                 SavedRotations[i] = Joints[i].localRotation;
             }
-            // Root rotation
-            Joints[0].rotation = InitRotations[0];
-            Joints[0].Rotate(frameData.jointAngles[0], Space.World);
-            NextRotations[0] = Joints[0].localRotation;
-            Joints[0].rotation = InitRotations[0];
-            // Other rotation
-            for (int i = 1; i < Joints.Count; i++)
+            
+            for (int i = 0; i < Joints.Count; i++)
             {
                 if (Joints[i] == null) continue;
-                Joints[i].rotation = InitRotations[i];// * frameData.jointAngleToRotation(i);
-                Joints[i].Rotate(AnimData.ToUnityAngles(frameData.jointAngles[i]), Space.World);
-                //Joints[i].Rotate(Vector3.right, frameData.jointAngles[i].x, Space.World);
-                //Joints[i].Rotate(Vector3.down, frameData.jointAngles[i].y, Space.World);
-                //Joints[i].Rotate(Vector3.back, frameData.jointAngles[i].z, Space.World);
+                Joints[i].localRotation = InitRotations[i];
+                //if (i == 0) Joints[0].Rotate(180f, 0f, 0f, Space.World);
+                Joints[i].Rotate(frameData.jointAngles[i], Space.World);
+                if (i == 0) Joints[0].Rotate(180f, 0f, 0f, Space.World);
                 NextRotations[i] = Joints[i].localRotation;
-                Joints[i].rotation = InitRotations[i];
+                Joints[i].localRotation = InitRotations[i];
             }
-            //UpdatedRotations[0] = Quaternion.Euler(180f, 0f, 0f) * UpdatedRotations[0]; // upside down?
             // apply global and joints rotations
             for (int i = 0; i < Joints.Count; i++)
             {
                 //if (i < 20 || i > 61) continue;
                 if (Joints[i] == null) continue;
                 Joints[i].localRotation = Quaternion.Lerp(SavedRotations[i], NextRotations[i], interpolatePoint);
-            }                
-            // Facial expression
-            UpdateFace(interpolatePoint);
+            }
         }
 
         private void UpdateFace(float interpolatePoint = 1f)
         {
             if (AllowFacialAnim)
             {
-                for (int i = 0; i < 1; i++)
-                {
-                    if (FacialJoints[i] != null)
-                    {
-                        Quaternion goalRotation = Quaternion.Lerp(FacialInitRotations[i], FacialFullRotations[i], frameData.facialParams[i]);
-                        FacialJoints[i].localRotation = Quaternion.Lerp(FacialJoints[i].localRotation, goalRotation, interpolatePoint);
-                    }
-                }
-                for (int i = 1; i < FacialJoints.Count; i++)
-                {
-                    if (FacialJoints[i] != null)
-                    {
+                //for (int i = 0; i < Mathf.Min(1, FacialJoints.Count); i++)
+                //{
+                //    if (FacialJoints[i] != null)
+                //    {
+                //        Quaternion goalRotation = Quaternion.Lerp(FacialInitRotations[i], FacialFullRotations[i], frameData.facialParams[i]);
+                //        FacialJoints[i].localRotation = Quaternion.Lerp(FacialJoints[i].localRotation, goalRotation, interpolatePoint);
+                //    }
+                //}
+                //for (int i = 1; i < FacialJoints.Count; i++)
+                //{
+                //    if (FacialJoints[i] != null)
+                //    {
 
-                        Quaternion goalRotation = Quaternion.Lerp(FacialInitRotations[i], FacialFullRotations[i], 1f - frameData.facialParams[i]);
-                        FacialJoints[i].localRotation = Quaternion.Lerp(FacialJoints[i].localRotation, goalRotation, interpolatePoint);
+                //        Quaternion goalRotation = Quaternion.Lerp(FacialInitRotations[i], FacialFullRotations[i], 1f - frameData.facialParams[i]);
+                //        FacialJoints[i].localRotation = Quaternion.Lerp(FacialJoints[i].localRotation, goalRotation, interpolatePoint);
+                //    }
+                //}
+                if (blendMesh != null)
+                {
+                    for (int i = 0; i < frameData.facialParams.Count; i++)
+                    {
+                        float currentWeight = blendMesh.GetBlendShapeWeight(i);
+                        float interpolatedWeight = Mathf.Lerp(currentWeight, frameData.facialParams[i] * 100f / facialParamMultiplier, interpolatePoint);
+                        blendMesh.SetBlendShapeWeight(i, interpolatedWeight);
                     }
                 }
             }
             //frameData.facialParams;
+        }
+
+        private void UpdateModelAndFace(float interpolatePoint = 1f)
+        {
+            UpdateModel(interpolatePoint);
+            UpdateFace(interpolatePoint);
         }
 
         IEnumerator InsertStepsCoroutine()
@@ -295,7 +301,7 @@ namespace opdemo
             for (int i = InsertStepNumber; i > 0; i--)
             {
                 // insert a frame
-                UpdateModel(1f / i);
+                UpdateModelAndFace(1f / i);
                 //Debug.Log(1f / i + " and " + Time.time);
 
                 // Loop until the next step is reached
@@ -323,11 +329,11 @@ namespace opdemo
                         // Calculate vertical stablization
                         if (AllowVerticalStablization)
                         {
-                            UpdateModel(1, true); // set to next state
+                            UpdateModel(1f, true); // set to next state
                             PushNewFeetHeights(); // calculate feet heights
                             if (IsVerticalStable() || GetLowestFeetHeight() < 0f)
                             {
-                                HeightDiff = -GetLowestFeetHeight();
+                                HeightDiff -= GetLowestFeetHeight();
                             }
                             ChangeModelToLastSavedState(); // change the model state back
                         }
@@ -341,7 +347,10 @@ namespace opdemo
                     // Update model every frame for interpolation
                     if (AllowInterpolation)
                     {
-                        if (frameData.isValid) UpdateModel(Time.deltaTime / interpolateFrameRest);
+                        if (frameData.isValid)
+                        {
+                            UpdateModelAndFace(Time.deltaTime / interpolateFrameRest);
+                        }
                     }
                     break;
                 case PlayMode.FileJson:
@@ -349,8 +358,14 @@ namespace opdemo
                     interpolateFrameRest = DataFrameController.RestFrameTime;
                     if (frameData.isValid)
                     {
-                        if (AllowInterpolation) UpdateModel(Time.deltaTime / interpolateFrameRest);
-                        else UpdateModel();
+                        if (AllowInterpolation)
+                        {
+                            UpdateModelAndFace(Time.deltaTime / interpolateFrameRest);
+                        }
+                        else
+                        {
+                            UpdateModelAndFace();
+                        }
                     }
                     break;
 

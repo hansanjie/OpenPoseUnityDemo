@@ -10,7 +10,7 @@ namespace opdemo
     public class BvhPaser
     {
         // for OP bvh data
-        public static int[] indexMap = { 0, 0, 1, 4, 7, -1, 0, 2, 5, 8, -1, 0, 3, 6, 9, 12, -1, 9, 13, 16, 18, 20, 22, 23, 24, -1, 20, 26, 27, 28, -1, 20, 30, 31, 32, -1, 20, 34, 35, 36, -1, 20, 38, 39, 40, -1, 9, 14, 17, 19, 21, 42, 43, 44, -1, 21, 46, 47, 48, -1, 21, 50, 51, 52, -1, 21, 54, 55, 56, -1, 21, 58, 59, 60, -1 };
+        public static int[] indexMap = { 0, 0, 1, 4, 7, -1, 0, 2, 5, 8, -1, 0, 3, 6, 9, 12, -1, 9, 13, 16, 18, -1, 20, 22, 23, 24, -1, 20, 26, 27, 28, -1, 20, 30, 31, 32, -1, 20, 34, 35, 36, -1, 20, 38, 39, 40, -1, 9, 14, 17, 19, -1, 21, 42, 43, 44, -1, 21, 46, 47, 48, -1, 21, 50, 51, 52, -1, 21, 54, 55, 56, -1, 21, 58, 59, 60, -1 };
         // for CMU mocap data
         //public static int[] indexMap = { 0, -1, 0, 1, 4, 7, -1, -1, 0, 2, 5, 8, -1, 0, 3, 6, 9, 12, 15, -1, 9, 13, 16, 18, 20, 26, -1, 22, -1, 9, 14, 17, 19, 21, 46, -1, 42, -1, };
 
@@ -23,7 +23,7 @@ namespace opdemo
         {
             if (hierarchy.nodes.Count != indexMap.Length)
             {
-                Debug.Log("Invalid node number");
+                Debug.Log("Invalid node number: input " + hierarchy.nodes.Count + " indexMap " + indexMap.Length);
                 return new AnimDataSet();
             }
             AnimDataSet dataSet = new AnimDataSet();
@@ -65,13 +65,12 @@ namespace opdemo
                     if (opIndex == 0)
                     {
                         if (pos != new Vector3()) data.totalPosition = pos;
-                        if (rot != new Vector3()) data.jointAngles[0] = rot;
+                        if (rot != new Vector3()) data.jointAngles[0] = -AnimData.AdamToUnityEuler(rot);
                     } else
                     {
-                        if (rot != new Vector3()) data.jointAngles[opIndex] = rot;
+                        if (rot != new Vector3()) data.jointAngles[opIndex] = -AnimData.AdamToUnityEuler(rot);
                     }
                 }
-                data.jointAngles[0] = data.jointAngles[0];
                 dataSet.dataList.Add(data);
             }
             //Debug.Log(dataSet.dataLis);
