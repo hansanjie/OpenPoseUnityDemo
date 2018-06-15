@@ -3765,7 +3765,7 @@ Transform:
   m_GameObject: {fileID: 1468451043}
   m_LocalRotation: {x: -0.0054977355, y: -0.00000028087604, z: 0.0000000015442054,
     w: -0.9999849}
-  m_LocalPosition: {x: 0, y: 0.97, z: -8.71}
+  m_LocalPosition: {x: 0, y: 0, z: -8.71}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 282840814}
@@ -5119,7 +5119,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1944265982}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1.4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1468451044}
@@ -5143,10 +5143,12 @@ MonoBehaviour:
   HumanCenter: {fileID: 47320637}
   ControlDistanceSpeed: 1.1
   ControlRotateSpeed: 240
-  MinDistance: 0.6
+  MinDistance: 0.3
   ControlRotateLimit: {x: 0, y: 45}
-  FollowRotatingCoeff: 1
-  FollowTranslatingCoeff: 4
+  FollowRotatingCoeff: 5
+  FollowTranslatingCoeff: 3
+  FollowRotatingThres: 0.01
+  FollowTranslatingThres: 0.01
 --- !u!1 &1955008936
 GameObject:
   m_ObjectHideFlags: 0

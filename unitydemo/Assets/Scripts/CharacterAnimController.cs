@@ -113,7 +113,8 @@ namespace opdemo
                 case CamFocusPart.Chest:
                     return Joints[6];
                 case CamFocusPart.Head:
-                    return Joints[12];
+                    if (Joints[15] != null) return Joints[15];
+                    else return Joints[12];
                 default:
                     return Joints[0];
             }

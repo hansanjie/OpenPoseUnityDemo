@@ -65,12 +65,17 @@ namespace opdemo
                     if (opIndex == 0)
                     {
                         if (pos != new Vector3()) data.totalPosition = pos;
-                        if (rot != new Vector3()) data.jointAngles[0] = -AnimData.AdamToUnityEuler(rot);
+                        if (rot != new Vector3())
+                        {
+                            Quaternion q = Quaternion.Euler(rot);
+                            data.jointAngles[0] = q.eulerAngles;
+                        }
                     } else
                     {
                         if (rot != new Vector3()) data.jointAngles[opIndex] = -AnimData.AdamToUnityEuler(rot);
                     }
                 }
+                //data.jointAngles[0] += Vector3.left * 180f;
                 dataSet.dataList.Add(data);
             }
             //Debug.Log(dataSet.dataLis);

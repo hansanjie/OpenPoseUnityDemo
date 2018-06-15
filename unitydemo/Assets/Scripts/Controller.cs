@@ -10,7 +10,7 @@ namespace opdemo
         // Singleton
         private static Controller instance = null;
 
-        private static PlayMode defaultMode = PlayMode.Stream;
+        private static PlayMode defaultMode = PlayMode.FileBvh;
 
         private PlayMode mode = PlayMode.Default;
 

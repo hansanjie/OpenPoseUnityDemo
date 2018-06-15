@@ -28,6 +28,9 @@ namespace opdemo
 
         public float FollowRotatingCoeff = 0.5f;
         public float FollowTranslatingCoeff = 0.3f;
+
+        public float FollowRotatingThres = 1f;
+        public float FollowTranslatingThres = 0.01f;
         //public float RotatingStiff = 0.5f;
         //public float TranslatingStiff = 0.5f;
         private float DefaultDistance;
@@ -74,16 +77,23 @@ namespace opdemo
             float angleDiff;
             Vector3 axisRotate;
             Quaternion.FromToRotation(CameraJoint.forward, GoalWatch - CameraJoint.position).ToAngleAxis(out angleDiff, out axisRotate);
-            //float deltaAngle = FollowRotatingCoeff * Mathf.Sqrt(angleDiff) * Time.deltaTime; // index 1/2
-            float deltaAngle = FollowRotatingCoeff * angleDiff * Mathf.Abs(angleDiff) * Time.deltaTime; // index 2
-            CameraJoint.Rotate(axisRotate, deltaAngle, Space.World);
+            if (angleDiff > FollowRotatingThres)
+            {
+                float deltaAngle = FollowRotatingCoeff * Mathf.Sqrt(angleDiff) * Time.deltaTime; // index 1/2
+                //float deltaAngle = FollowRotatingCoeff * angleDiff * Mathf.Abs(angleDiff) * Time.deltaTime; // index 2
+                CameraJoint.Rotate(axisRotate, deltaAngle, Space.World);
+            }
             CameraJoint.localRotation = Quaternion.Euler(CameraJoint.localRotation.eulerAngles - CameraJoint.localRotation.eulerAngles.z * Vector3.forward); // filter out z rotation
 
             // Translation
             float distanceDiff = Vector3.Dot(GoalPos - MyCamera.position, MyCamera.forward) - InitDistance;
-            //float deltaMove = FollowTranslatingCoeff * distanceDiff * Time.deltaTime; // index 1
-            float deltaMove = FollowTranslatingCoeff * distanceDiff * Mathf.Abs(distanceDiff) * Time.deltaTime; // index 2
-            MyCamera.localPosition += new Vector3(0, 0, deltaMove);
+            if (Mathf.Abs(distanceDiff) > FollowTranslatingThres)
+            {
+                float deltaMove = FollowTranslatingCoeff * Mathf.Sign(distanceDiff) * Mathf.Sqrt(Mathf.Abs(distanceDiff)) * Time.deltaTime; // index 1/2
+                //float deltaMove = FollowTranslatingCoeff * distanceDiff * Time.deltaTime; // index 1
+                //float deltaMove = FollowTranslatingCoeff * distanceDiff * Mathf.Abs(distanceDiff) * Time.deltaTime; // index 2
+                MyCamera.localPosition += new Vector3(0, 0, deltaMove);
+            }
             if (MyCamera.localPosition.z < 0f) MyCamera.localPosition = new Vector3(0f, 0f, 0f);
         }
 
