@@ -3429,7 +3429,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1177517216455226}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.0019623446, y: 1, z: 0.025165806}
+  m_LocalPosition: {x: 0.0019623446, y: 0.971, z: 0.025165806}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4044853565833250}
@@ -11097,6 +11097,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AllowFacialAnim: 0
+  facialParamMultiplier: 2
+  blendMesh: {fileID: 0}
   Joints:
   - {fileID: 4070867080857370}
   - {fileID: 4044853565833250}
@@ -11161,6 +11163,9 @@ MonoBehaviour:
   - {fileID: 4414609855190048}
   - {fileID: 4547670085434078}
   FacialJoints: []
+  LowerFeetIndicators: []
+  FacialInitRotations: []
+  FacialFullRotations: []
 --- !u!135 &135020395054518104
 SphereCollider:
   m_ObjectHideFlags: 1

@@ -2044,6 +2044,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AllowFacialAnim: 1
+  facialParamMultiplier: 2
   blendMesh: {fileID: 137908399239847400}
   Joints:
   - {fileID: 4555311470210468}
