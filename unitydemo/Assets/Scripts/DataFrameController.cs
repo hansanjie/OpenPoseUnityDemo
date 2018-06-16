@@ -37,13 +37,14 @@ namespace opdemo
 
         private void Start()
         {
-            if (Controller.Mode == PlayMode.FileJson) InitDataJson(FileName + ".json");
-            if (Controller.Mode == PlayMode.FileBvh) InitDataBvh(FileName + ".bvh");
+            if (Controller.Mode == PlayMode.FileJson) InitDataJson(FileName);
+            if (Controller.Mode == PlayMode.FileBvh) InitDataBvh(FileName);
         }
 
         private void InitDataJson(string file)
         {
-            string filePath = Path.Combine(Application.dataPath, file);
+            //string filePath = Path.Combine(Application.dataPath, file);
+            string filePath = file;
             if (File.Exists(filePath))
             {
                 string dataAsJson = File.ReadAllText(filePath);
@@ -59,7 +60,8 @@ namespace opdemo
 
         private void InitDataBvh(string file)
         {
-            string filePath = Path.Combine(Application.dataPath, file);
+            //string filePath = Path.Combine(Application.dataPath, file);
+            string filePath = file;
             if (File.Exists(filePath))
             {
                 string data = File.ReadAllText(filePath);

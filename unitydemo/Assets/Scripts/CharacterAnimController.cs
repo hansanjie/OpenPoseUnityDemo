@@ -10,6 +10,7 @@ namespace opdemo
         // Global settings
         //[SerializeField] GameObject JointObject;
         public static Vector3 Offset = new Vector3(0f, 1f, 2f);
+        public static Quaternion OffsetRotation = Quaternion.identity;
         public static bool AllowInterpolation = false;
         public static int InsertStepNumber = 2;
         public static bool AllowVerticalStablization = true;
@@ -123,6 +124,12 @@ namespace opdemo
         public void Recenter()
         {
             Offset -= Joints[0].position - InitRootPosition;
+        }
+
+        public void Revertical()
+        {
+            OffsetRotation = Quaternion.Inverse(Joints[0].rotation) * OffsetRotation;
+            //OffsetRotation = Quaternion.Inverse(Joints[0].rotation).eulerAngles;
         }
 
         /*public void AdjustHeight()
@@ -243,7 +250,11 @@ namespace opdemo
                 Joints[i].localRotation = InitRotations[i];
                 //if (i == 0) Joints[0].Rotate(180f, 0f, 0f, Space.World);
                 Joints[i].Rotate(frameData.jointAngles[i], Space.World);
-                if (i == 0) Joints[0].Rotate(180f, 0f, 0f, Space.World);
+                if (i == 0)
+                {
+                    Joints[0].Rotate(180f, 0f, 0f, Space.World);
+                    Joints[0].rotation = OffsetRotation * Joints[0].rotation;
+                }
                 NextRotations[i] = Joints[i].localRotation;
                 Joints[i].localRotation = InitRotations[i];
             }

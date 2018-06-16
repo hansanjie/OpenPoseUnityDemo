@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Crosstales.FB;
 
 namespace opdemo
 {
@@ -15,7 +16,6 @@ namespace opdemo
         public bool AllowFeetStablization = true;
         public int StablizationCompareSequence = 3;
         public float StableMovementThreshold = 0.02f;
-        public string DefaultInputFileName = "input";
 
         private static PlayMode defaultMode = PlayMode.Stream;
 
@@ -40,12 +40,16 @@ namespace opdemo
         public void SelectJson()
         {
             mode = PlayMode.FileJson;
+            string fileName = FileBrowser.OpenSingleFile("Load JSON", "", "json");
+            DataFrameController.FileName = fileName;
             LoadMain();
         }
 
         public void SelectBvh()
         {
             mode = PlayMode.FileBvh;
+            string fileName = FileBrowser.OpenSingleFile("Load BVH", "", "bvh");
+            DataFrameController.FileName = fileName;
             LoadMain();
         }
 
@@ -61,7 +65,6 @@ namespace opdemo
             CharacterAnimController.AllowVerticalStablization = AllowFeetStablization;
             CharacterAnimController.CompareDifference = StablizationCompareSequence;
             CharacterAnimController.VerticalMovementThres = StableMovementThreshold;
-            DataFrameController.FileName = DefaultInputFileName;
         }
 
         private void LoadMain()

@@ -1,4 +1,4 @@
-# Instructions for opUnityDemo streaming: Windows
+# Instructions for opUnityDemo : Windows
 
 ## Local cable network setting: 
 ### Windows: connect the cable and disable other networks. 
@@ -15,37 +15,46 @@
 
 Reference: https://unix.stackexchange.com/questions/251057/can-i-connect-a-ubuntu-linux-laptop-to-a-windows-10-laptop-via-ethernet-cable?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
 
-## Application setup instructions
-1. Open opUnityDemo.exe
-2. If the "Windows Security Alert" pops up, saying "Windows Firewall has blocked some features of this app", check both the checkboxes (Private networks & Public networks) and click "Allow access" (see instruction_p1)
-3. Choose "Streaming" in the demo app. 
-4. Copy the IP address and port number on screen, and add input arguments when starting OP: "--udp_host <your_IP> --udp_port <your_port>"
-5. Run and test if the character in opUnityDemo moves along with the character in OP. 
-6. If it works, everything is good so far and you can skip the rest. If it still doesn't work, try the following steps:
-7. Open Windows start menu (or Windows search) and type "wf.msc", choose the first one, which is supposed to be "Windows Firewall with Advanced Security"
-8. Select "Inbound Rules" in the left side bar, and find opUnityDemo.exe in the middle. There may have two opUnityDemo.exe as one for UDP and the other for TCP. You can do the same operations for both. 
-9. Doubleclick the rule for opUnityDemo.exe (or right click -> Properties). In "General" tab, select "Allow the connection" in "Action" field. Then click OK. 
-10. Restart the application and test again. 
+## Windows firewall setting to enable UDP
+1. Open the application and choose "Streaming" mode. 
+2. If the "Windows Security Alert" pops up, check both the checkboxes (Private networks & Public networks) and click "Allow access" (see instruction_p1). 
+3. Run OpenPose program with UDP: "--udp_host <your_IP> --udp_port <your_port>" which could be found in the Unity application.
+4. Test if it works. If not, do following steps. 
+5. Open "wf.msc" in Windows search, which is supposed to be "Windows Firewall with Advanced Security". 
+6. Select "Inbound Rules" tab, find the application (you may see two same names). 
+7. Doubleclick to open "Properties" window (or Right click -> Properties). 
+8. In "General" tab, select "Allow the connection" in "Action" field. Click "OK". 
+9. Restart and try again.
 
 ## Application operations guide
-	Key		|		Function
------------------------------------------------------
-	Esc		|		Back to the menu / Quit the application
-	C 		|		Reset the character position to center
-	I 		|		Enable / disable interpolation
-	< >		|		Change the character model
-	M /		|		Change the scene model
-			|		.....Whatever else
+	Key	/ Mouse	|		Function
+------------------------------------------------------------------
+	MouseDrag	|		Rotate camera view angle
+	MouseScroll	|		Zoom in / out camera
+-------------------------------------------------------------------
+	Esc			|		Back to the menu / Quit the application
+	C 			|		Reset the character position to center
+	V 			|		Reset the character rotation to vertical
+	I 			|		Enable / disable interpolation
+	< >			|		Change the character model (not in use)
+	M /			|		Change the scene model (not in use)
+----------------------------------------------------------------
+	Space		|		Start / pause / Resume animation play (only in BVH and JSON mode)
+	R 			|		Reset animation to start position (only in BVH and JSON mode)
+	LeftArrow	|		Last frame (only in BVH and JSON mode)
+	RightArrow	|		Next frame (only in BVH and JSON mode)
+	UpArrow		|		Speed up animation (only in BVH and JSON mode)
+	DownArrow	|		Slow down animation (only in BVH and JSON mode)
 
-## Project setup instructions
+## Project setup instructions - if you want to open in Unity
 1. Clone the whole repository.
-2. Obtain the "Models" (NOT available yet) and extracted into folder "unitydemo/Assets/Models".
-3. Import the "Standard Assets/Environment" for the water effect. 
-3. Open the project with Unity.
+2. Open the project with Unity.
+4. Do the Firewall Seting for "Unity Edotr" in "wf.msc" (you may refer to the previous section). 
 
 ## Software
-Developed in Unity 2018.1.1f1 Personal.
+Developed in Unity 2018.1.5f1 Personal.
 
 ## 3rd Party Packages:
-TriLib: http://ricardoreis.net/?p=14
+TriLib (not in use so far): http://ricardoreis.net/?p=14
 RockVR video capture: https://assetstore.unity.com/packages/tools/video/video-capture-75653
+File browser: https://assetstore.unity.com/packages/tools/gui/file-browser-windows-macos-98716

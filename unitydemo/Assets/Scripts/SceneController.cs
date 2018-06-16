@@ -70,6 +70,11 @@ namespace opdemo
             HumanModels[HumanModelIndex].GetComponent<CharacterAnimController>().Recenter();
         }
 
+        public void Revertical()
+        {
+            HumanModels[HumanModelIndex].GetComponent<CharacterAnimController>().Revertical();
+        }
+
         public void SwitchFocus(int index)
         {
             CamFocus = (CamFocusPart)index;

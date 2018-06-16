@@ -37,12 +37,22 @@ namespace opdemo
             GetComponent<SceneController>().Recenter();
         }
 
+        public void ReVertical()
+        {
+            GetComponent<SceneController>().Revertical();
+        }
+
         // Update is called once per frame
         void Update()
         {
             if (Input.GetKeyDown(KeyCode.C))
             {
                 ReCenter();
+            }
+
+            if (Input.GetKeyDown(KeyCode.V))
+            {
+                ReVertical();
             }
             // TODO
             // scene & character control
