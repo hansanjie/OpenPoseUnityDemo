@@ -1,4 +1,4 @@
-﻿/* // Uncomment this when build
+﻿// /* 
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
