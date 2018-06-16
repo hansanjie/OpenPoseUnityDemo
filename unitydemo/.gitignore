@@ -48,8 +48,8 @@ Corridor/Library/metadata/
 # ============ #
 # Custom ignore #
 # ============ #
-/Assets/Standard Assets/
-/Assets/Trilib/
-/Assets/RockVR/
-/Assets/StreamingAssets/
-/Assets/Plugins/
+#/Assets/Standard Assets/
+#/Assets/Trilib/
+#/Assets/RockVR/
+#/Assets/StreamingAssets/
+#/Assets/Plugins/
