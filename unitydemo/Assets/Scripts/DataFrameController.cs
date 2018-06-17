@@ -18,7 +18,7 @@ namespace opdemo
         private bool playingAnimation = false;
 
         // Interface
-        public static string FileName = "input";
+        public static string FileName = "./InputFiles/new_full.bvh";
         public static bool IsReady { get { try { return instance.dataSet.isValid; } catch { return false; } } }
         public static float RestFrameTime { get { return instance.frameTime - instance.accumulateFrameTime; } }
         //public static List<Vector3> DefaultSkeletonData { get { if (IsReady) return instance.dataSet.default_skeleton; else return new List<Vector3>(); } }
@@ -120,11 +120,11 @@ namespace opdemo
                 {
                     //totalTime += Time.deltaTime;
                     accumulateFrameTime += Time.deltaTime;
-                    while (accumulateFrameTime > frameTime)
+                    while (accumulateFrameTime > frameTime) // entering new frame
                     {
                         accumulateFrameTime -= frameTime;
-                        if (currentFrameNumber < dataSet.dataList.Count - 1) currentFrameNumber++;
-                        else playingAnimation = false;
+                        if (currentFrameNumber < dataSet.dataList.Count - 1) currentFrameNumber++; // anim not finished yet
+                        else playingAnimation = false; // anim finished
                     }
                 }
                 yield return new WaitForEndOfFrame();

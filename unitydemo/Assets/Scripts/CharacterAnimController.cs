@@ -9,9 +9,9 @@ namespace opdemo
     {
         // Global settings
         //[SerializeField] GameObject JointObject;
-        public static Vector3 Offset = new Vector3(0f, 1f, 2f);
+        public static Vector3 OffsetPosition = Vector3.zero;
         public static Quaternion OffsetRotation = Quaternion.identity;
-        public static bool AllowInterpolation = false;
+        public static bool AllowInterpolation = true;
         public static int InsertStepNumber = 2;
         public static bool AllowVerticalStablization = true;
         public static int CompareDifference = 3;
@@ -24,14 +24,14 @@ namespace opdemo
         [SerializeField] float facialParamMultiplier = 2f;
         [SerializeField] SkinnedMeshRenderer blendMesh;
         [SerializeField] List<Transform> Joints;
-        [SerializeField] List<Transform> FacialJoints;
+        //[SerializeField] List<Transform> FacialJoints;
         [SerializeField] List<Transform> LowerFeetIndicators;
-        [SerializeField] List<Quaternion> FacialInitRotations;
-        [SerializeField] List<Quaternion> FacialFullRotations;
+        //[SerializeField] List<Quaternion> FacialInitRotations;
+        //[SerializeField] List<Quaternion> FacialFullRotations;
 
         // Animating data
         private AnimData frameData = new AnimData();
-        private Vector3 InitRootPosition;
+        private Vector3 InitRootGlobalPosition;
         private Vector3 SavedRootPosition;
         private Vector3 NextRootPosition;
         private Dictionary<int, Quaternion> InitRotations = new Dictionary<int, Quaternion>();
@@ -92,10 +92,10 @@ namespace opdemo
                 NextRotations.Add(i, Joints[i].localRotation);
                 //Instantiate(JointObject, Joints[i], false);
             }
-            InitRootPosition = Joints[0].position;
+            InitRootGlobalPosition = Joints[0].position;
         }
         
-        private void InitSkeleton(List<Vector3> posList) // deprecated
+        /*private void InitSkeleton(List<Vector3> posList) // deprecated
         {
             Debug.Log(posList.Count);
             for (int i = 0; i < Mathf.Min(Joints.Count, posList.Count); i++)
@@ -103,7 +103,7 @@ namespace opdemo
                 if (Joints[i] == null) continue;
                 Joints[i].position = new Vector3(-posList[i].x, posList[i].y, posList[i].z) / 100f;
             }
-        }
+        }*/
 
         public Transform GetFocusCenter(CamFocusPart focus)
         {
@@ -123,13 +123,12 @@ namespace opdemo
 
         public void Recenter()
         {
-            Offset -= Joints[0].position - InitRootPosition;
+            OffsetPosition += InitRootGlobalPosition - Joints[0].position;
         }
 
         public void Revertical()
         {
-            OffsetRotation = Quaternion.Inverse(Joints[0].rotation) * OffsetRotation;
-            //OffsetRotation = Quaternion.Inverse(Joints[0].rotation).eulerAngles;
+            OffsetRotation = Quaternion.Inverse(Joints[0].localRotation);
         }
 
         /*public void AdjustHeight()
@@ -139,7 +138,7 @@ namespace opdemo
             HeightDifference.y = InitRootPosition.y - frameData.rootHeight / 100f;
         }*/
 
-        [ExecuteInEditMode]
+        /*[ExecuteInEditMode]
         public void ConfigureInitFacialRotations()
         {
             FacialInitRotations = new List<Quaternion>();
@@ -201,11 +200,11 @@ namespace opdemo
                     FacialJoints[i].localRotation = FacialFullRotations[i];
                 }
             }
-        }
+        }*/
 
         private void ChangeModelToLastSavedState()
         {
-            Joints[0].position = SavedRootPosition;
+            Joints[0].localPosition = SavedRootPosition;
             for (int i = 0; i < Joints.Count; i++)
             {
                 if (Joints[i] == null) continue;
@@ -213,57 +212,61 @@ namespace opdemo
             }
         }
 
-        private void UpdateModel(float interpolatePoint = 1f, bool forceDisableVerticalStablizing = false)
-        {            
+        private void UpdateModel(float interpolatePoint = 1f)
+        {
             // TODO: Unity and OP are using different coordinates, write a new script for transiting. 
 
-            // global translation
-            SavedRootPosition = Joints[0].position;
+            // Reset offsets
+            transform.position = Vector3.zero;
+            transform.rotation = Quaternion.identity;
+
+            // Global translation
+            SavedRootPosition = Joints[0].localPosition;
             NextRootPosition = -frameData.totalPosition / 100f;
-            // Vertical stablizer
-            if (AllowVerticalStablization && LowerFeetIndicators.Count > 0)
-            {
-                //if (!forceDisableVerticalStablizing)
-                {
-                    //Joints[0].Translate(0f, HeightDiff, 0f, Space.World);
-                    NextRootPosition.y += HeightDiff;
-                }
-            }
-            Joints[0].position = Vector3.Lerp(SavedRootPosition, NextRootPosition + Offset, interpolatePoint);
-            // global rotation
+            Joints[0].localPosition = Vector3.Lerp(SavedRootPosition, NextRootPosition, interpolatePoint);
+            // Global rotation
             /*Vector3 axisAngle = new Vector3(-frameData.jointAngles[0].x, frameData.jointAngles[0].y, frameData.jointAngles[0].z);
             Joints[0].rotation = InitRotations[0];
             Joints[0].Rotate(axisAngle, axisAngle.magnitude * Mathf.Rad2Deg, Space.World);
             Joints[0].Rotate(Vector3.left, 180f, Space.World);
             UpdatedRotations[0] = Joints[0].localRotation;
             Joints[0].rotation = InitRotations[0];*/
-            // global rotation & joints rotations
+            // Global rotation & joints rotations
             for (int i = 0; i < Joints.Count; i++)
             {
                 if (Joints[i] == null) continue;
                 SavedRotations[i] = Joints[i].localRotation;
             }
-            
+            transform.rotation = Quaternion.identity;
             for (int i = 0; i < Joints.Count; i++)
             {
                 if (Joints[i] == null) continue;
                 Joints[i].localRotation = InitRotations[i];
                 //if (i == 0) Joints[0].Rotate(180f, 0f, 0f, Space.World);
                 Joints[i].Rotate(frameData.jointAngles[i], Space.World);
-                if (i == 0)
+                if (i == 0) 
                 {
-                    Joints[0].Rotate(180f, 0f, 0f, Space.World);
-                    Joints[0].rotation = OffsetRotation * Joints[0].rotation;
+                    Joints[0].Rotate(180f, 0f, 0f, Space.World); // upside down
                 }
                 NextRotations[i] = Joints[i].localRotation;
                 Joints[i].localRotation = InitRotations[i];
             }
-            // apply global and joints rotations
+            // Apply global and joints rotations
             for (int i = 0; i < Joints.Count; i++)
             {
                 //if (i < 20 || i > 61) continue;
                 if (Joints[i] == null) continue;
                 Joints[i].localRotation = Quaternion.Lerp(SavedRotations[i], NextRotations[i], interpolatePoint);
+            }
+
+            // Set offsets
+            transform.position = OffsetPosition;
+            transform.rotation = OffsetRotation;
+
+            // Vertical stablizer
+            if (AllowVerticalStablization && LowerFeetIndicators.Count > 0)
+            {
+                transform.Translate(Vector3.up * HeightDiff, Space.World);
             }
         }
 
@@ -271,23 +274,23 @@ namespace opdemo
         {
             if (AllowFacialAnim)
             {
-                //for (int i = 0; i < Mathf.Min(1, FacialJoints.Count); i++)
-                //{
-                //    if (FacialJoints[i] != null)
-                //    {
-                //        Quaternion goalRotation = Quaternion.Lerp(FacialInitRotations[i], FacialFullRotations[i], frameData.facialParams[i]);
-                //        FacialJoints[i].localRotation = Quaternion.Lerp(FacialJoints[i].localRotation, goalRotation, interpolatePoint);
-                //    }
-                //}
-                //for (int i = 1; i < FacialJoints.Count; i++)
-                //{
-                //    if (FacialJoints[i] != null)
-                //    {
+                /*for (int i = 0; i < Mathf.Min(1, FacialJoints.Count); i++)
+                {
+                    if (FacialJoints[i] != null)
+                    {
+                        Quaternion goalRotation = Quaternion.Lerp(FacialInitRotations[i], FacialFullRotations[i], frameData.facialParams[i]);
+                        FacialJoints[i].localRotation = Quaternion.Lerp(FacialJoints[i].localRotation, goalRotation, interpolatePoint);
+                    }
+                }
+                for (int i = 1; i < FacialJoints.Count; i++)
+                {
+                    if (FacialJoints[i] != null)
+                    {
 
-                //        Quaternion goalRotation = Quaternion.Lerp(FacialInitRotations[i], FacialFullRotations[i], 1f - frameData.facialParams[i]);
-                //        FacialJoints[i].localRotation = Quaternion.Lerp(FacialJoints[i].localRotation, goalRotation, interpolatePoint);
-                //    }
-                //}
+                        Quaternion goalRotation = Quaternion.Lerp(FacialInitRotations[i], FacialFullRotations[i], 1f - frameData.facialParams[i]);
+                        FacialJoints[i].localRotation = Quaternion.Lerp(FacialJoints[i].localRotation, goalRotation, interpolatePoint);
+                    }
+                }*/
                 if (blendMesh != null)
                 {
                     for (int i = 0; i < frameData.facialParams.Count; i++)
@@ -298,7 +301,6 @@ namespace opdemo
                     }
                 }
             }
-            //frameData.facialParams;
         }
 
         private void UpdateModelAndFace(float interpolatePoint = 1f)
@@ -333,65 +335,99 @@ namespace opdemo
             switch (Controller.Mode)
             {
                 case PlayMode.Stream:
-                    // Update data
-                    if (UDPReceiver.IsDataNew())
                     {
-                        frameData = AnimData.FromJsonData(UDPReceiver.ReceivedData);
-                        interpolateFrameRest = UDPReceiver.EstimatedRestFrameTime;
-                        // Calculate vertical stablization
-                        if (AllowVerticalStablization)
+                        // Update data
+                        if (UDPReceiver.IsDataNew())
                         {
-                            UpdateModel(1f, true); // set to next state
-                            PushNewFeetHeights(); // calculate feet heights
-                            if (IsVerticalStable() || GetLowestFeetHeight() < 0f)
+                            frameData = AnimData.FromJsonData(UDPReceiver.ReceivedData);
+                            interpolateFrameRest = UDPReceiver.EstimatedRestFrameTime;
+                            // Calculate vertical stablization
+                            if (AllowVerticalStablization)
                             {
-                                HeightDiff -= GetLowestFeetHeight();
+                                UpdateModel(1f); // set to next state
+                                PushNewFeetHeights(); // calculate feet heights
+                                if (IsVerticalStable() || GetLowestFeetHeight() < 0f)
+                                {
+                                    HeightDiff -= GetLowestFeetHeight();
+                                }
+                                ChangeModelToLastSavedState(); // change the model state back
                             }
-                            ChangeModelToLastSavedState(); // change the model state back
+                            // New insert coroutine for new data
+                            //if (AllowInterpolation)
+                            {
+                                StopCoroutine(InsertStepsCoroutine());
+                                StartCoroutine(InsertStepsCoroutine());
+                            }
                         }
-                        // New insert coroutine for new data
-                        if (!AllowInterpolation)
+                        // Update model every frame for interpolation
+                        /*if (AllowInterpolation)
                         {
-                            StopCoroutine(InsertStepsCoroutine());
-                            StartCoroutine(InsertStepsCoroutine());
-                        }
-                    }
-                    // Update model every frame for interpolation
-                    if (AllowInterpolation)
-                    {
-                        if (frameData.isValid)
-                        {
-                            UpdateModelAndFace(Time.deltaTime / interpolateFrameRest);
-                        }
+                            if (frameData.isValid)
+                            {
+                                UpdateModelAndFace(Time.deltaTime / interpolateFrameRest);
+                            }
+                        }*/
                     }
                     break;
                 case PlayMode.FileJson:
-                    frameData = DataFrameController.GetCurrentFrame();
-                    interpolateFrameRest = DataFrameController.RestFrameTime;
-                    if (frameData.isValid)
                     {
-                        if (AllowInterpolation)
+                        frameData = DataFrameController.GetCurrentFrame();
+                        bool newData = DataFrameController.RestFrameTime > interpolateFrameRest;
+                        interpolateFrameRest = DataFrameController.RestFrameTime;
+                        if (frameData.isValid)
                         {
-                            UpdateModelAndFace(Time.deltaTime / interpolateFrameRest);
-                        }
-                        else
-                        {
-                            UpdateModelAndFace();
+                            if (AllowVerticalStablization)
+                            {
+                                if (newData) // push new feet data
+                                {
+                                    UpdateModel(1f); // set to next state
+                                    PushNewFeetHeights(); // calculate feet heights
+                                    ChangeModelToLastSavedState(); // change the model state back
+                                }
+
+                                if (IsVerticalStable() || GetLowestFeetHeight() < 0f)
+                                {
+                                    HeightDiff -= GetLowestFeetHeight();
+                                }
+                            }
+                            if (AllowInterpolation)
+                            {
+                                UpdateModelAndFace(Time.deltaTime / interpolateFrameRest);
+                            }
+                            else
+                            {
+                                UpdateModelAndFace();
+                            }
                         }
                     }
                     break;
-
                 case PlayMode.FileBvh:
-                    frameData = DataFrameController.GetCurrentFrame();
-                    interpolateFrameRest = DataFrameController.RestFrameTime;
-                    if (frameData.isValid)
                     {
-                        if (AllowInterpolation) UpdateModel(Time.deltaTime / interpolateFrameRest);
-                        else UpdateModel();
+                        frameData = DataFrameController.GetCurrentFrame();
+                        bool newData = DataFrameController.RestFrameTime > interpolateFrameRest;
+                        interpolateFrameRest = DataFrameController.RestFrameTime;
+                        if (frameData.isValid)
+                        {
+                            if (AllowVerticalStablization)
+                            {
+                                if (newData) // push new feet data
+                                {
+                                    UpdateModel(1f); // set to next state
+                                    PushNewFeetHeights(); // calculate feet heights
+                                    ChangeModelToLastSavedState(); // change the model state back
+                                }
+
+                                if (IsVerticalStable() || GetLowestFeetHeight() < 0f)
+                                {
+                                    HeightDiff -= GetLowestFeetHeight();
+                                }
+                            }
+                            if (AllowInterpolation) UpdateModel(Time.deltaTime / interpolateFrameRest);
+                            else UpdateModel();
+                        }
                     }
                     break;
             }
         }
     }
-
 }

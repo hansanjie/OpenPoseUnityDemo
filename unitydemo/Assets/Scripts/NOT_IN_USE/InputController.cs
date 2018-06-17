@@ -4,12 +4,12 @@ using UnityEngine;
 
 namespace opdemo
 {
-    public class InputController : MonoBehaviour
+    public class InputController : MonoBehaviour // deprecated
     {
         // Singleton
         //private static InputController Instance;
 
-        [SerializeField] GameObject InterpolationCheckmark;
+        /*[SerializeField] GameObject InterpolationCheckmark;
 
         private void Awake()
         {
@@ -54,25 +54,6 @@ namespace opdemo
             {
                 ReVertical();
             }
-            // TODO
-            // scene & character control
-            /*if (Input.GetKeyDown(KeyCode.Comma))
-            {
-                LastHuman();
-            }
-            if (Input.GetKeyDown(KeyCode.Period))
-            {
-                NextHuman();
-            }
-
-            if (Input.GetKeyDown(KeyCode.M))
-            {
-                LastScene();
-            }
-            if (Input.GetKeyDown(KeyCode.Slash))
-            {
-                NextScene();
-            }*/
-        }
+        }*/
     }
 }

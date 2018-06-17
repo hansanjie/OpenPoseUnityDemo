@@ -33,9 +33,11 @@ Reference: https://unix.stackexchange.com/questions/251057/can-i-connect-a-ubunt
 	MouseScroll	|		Zoom in / out camera
 -------------------------------------------------------------------
 	Esc			|		Back to the menu / Quit the application
-	C 			|		Reset the character position to center
 	V 			|		Reset the character rotation to vertical
-	I 			|		Enable / disable interpolation
+	C 			|		Reset the character position to center
+	Q / W / E 	|		Switch camera focus to Hip / Chest / Head
+	I 			|		Enable / disable interpolation (stepping interpolation in Steam mode, full fps interpolation in BVH and JSON mode)
+	1 ~ 6 		|		Set interpolation steps number (1 is disable and only in Stream mode)
 	< >			|		Change the character model (not in use)
 	M /			|		Change the scene model (not in use)
 ----------------------------------------------------------------
@@ -45,6 +47,11 @@ Reference: https://unix.stackexchange.com/questions/251057/can-i-connect-a-ubunt
 	RightArrow	|		Next frame (only in BVH and JSON mode)
 	UpArrow		|		Speed up animation (only in BVH and JSON mode)
 	DownArrow	|		Slow down animation (only in BVH and JSON mode)
+
+## IMPORTANT NOTICE
+1. DO NOT try to back to the menu or quite the program while video is recording. (you may need to restart the program)
+2. Sometimes video recording will fail (when the processing could not stop), just restart and record again. 
+3. The default video saving folder is "C://Users/{UserName}/Documents/RockVR/Video". (And there is no way to change it so far.)
 
 ## Project setup instructions - if you want to open in Unity
 1. Clone the whole repository.

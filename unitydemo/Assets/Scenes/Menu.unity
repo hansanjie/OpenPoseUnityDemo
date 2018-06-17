@@ -887,6 +887,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c49f91666f026f246be1fc1a3ac40f25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DefaultAllowInterpolation: 1
+  DefaultInterpolationStepNumber: 2
+  AllowFeetStablization: 1
+  StablizationCompareSequence: 3
+  StableMovementThreshold: 0.02
 --- !u!1 &1849345564
 GameObject:
   m_ObjectHideFlags: 0

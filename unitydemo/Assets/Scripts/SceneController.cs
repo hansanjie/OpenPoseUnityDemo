@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace opdemo
 {
@@ -8,18 +9,23 @@ namespace opdemo
     {
         // Singleton
         //private static SceneController instance;
+        [SerializeField] Text StepNumberText;
+        [SerializeField] GameObject InterpolationCheckmark;
 
         [SerializeField] List<GameObject> HumanModels;
         [SerializeField] List<GameObject> SceneModels;
         private int _HumanModelIndex = 0, _SceneModelIndex = 0;
         public int HumanModelIndex { set { setHumanModel(value); } get { return _HumanModelIndex; } }
         public int SceneModelIndex { set { setSceneModel(value); } get { return _SceneModelIndex; } }
+
         public CamFocusPart CamFocus = CamFocusPart.Hip;
 
+        private int insertStepNum = 2;
 
         // Use this for initialization
         void Start()
         {
+            InterpolationCheckmark.SetActive(CharacterAnimController.AllowInterpolation);
             if (HumanModels.Count == 0 || SceneModels.Count == 0)
             {
                 Debug.Log("Empty list in Models or Scenes");
@@ -45,6 +51,7 @@ namespace opdemo
                 }
         }
 
+        // Models control
         public void NextScene()
         {
             SceneModelIndex++;
@@ -75,6 +82,33 @@ namespace opdemo
             HumanModels[HumanModelIndex].GetComponent<CharacterAnimController>().Revertical();
         }
 
+        // Anim control
+        public void ToggleInterpolation()
+        {
+            CharacterAnimController.AllowInterpolation = !CharacterAnimController.AllowInterpolation;
+            if (InterpolationCheckmark != null)
+            {
+                InterpolationCheckmark.SetActive(CharacterAnimController.AllowInterpolation);
+            }
+        }
+        public void SetInsertStepNumber(int n)
+        {
+            insertStepNum = Mathf.Clamp(n, 1, 9);
+            CharacterAnimController.InsertStepNumber = insertStepNum;
+            StepNumberText.text = insertStepNum.ToString();
+        }
+
+        public void IncreaseStepNumber()
+        {
+            SetInsertStepNumber(insertStepNum + 1);
+        }
+
+        public void DecreaseStepNumber()
+        {
+            SetInsertStepNumber(insertStepNum - 1);
+        }
+
+        // Camera control
         public void SwitchFocus(int index)
         {
             CamFocus = (CamFocusPart)index;
@@ -131,6 +165,65 @@ namespace opdemo
 
         private void Update()
         {
+            if (Input.GetKeyDown(KeyCode.Keypad1) || Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                SetInsertStepNumber(1);
+            }
+            if (Input.GetKeyDown(KeyCode.Keypad2) || Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                SetInsertStepNumber(2);
+            }
+            if (Input.GetKeyDown(KeyCode.Keypad3) || Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                SetInsertStepNumber(3);
+            }
+            if (Input.GetKeyDown(KeyCode.Keypad4) || Input.GetKeyDown(KeyCode.Alpha4))
+            {
+                SetInsertStepNumber(4);
+            }
+            if (Input.GetKeyDown(KeyCode.Keypad5) || Input.GetKeyDown(KeyCode.Alpha5))
+            {
+                SetInsertStepNumber(5);
+            }
+            if (Input.GetKeyDown(KeyCode.Keypad6) || Input.GetKeyDown(KeyCode.Alpha6))
+            {
+                SetInsertStepNumber(6);
+            }
+            if (Input.GetKeyDown(KeyCode.Keypad7) || Input.GetKeyDown(KeyCode.Alpha7))
+            {
+                SetInsertStepNumber(7);
+            }
+            if (Input.GetKeyDown(KeyCode.Keypad8) || Input.GetKeyDown(KeyCode.Alpha8))
+            {
+                SetInsertStepNumber(8);
+            }
+            if (Input.GetKeyDown(KeyCode.Keypad9) || Input.GetKeyDown(KeyCode.Alpha9))
+            {
+                SetInsertStepNumber(9);
+            }
+
+            if (Input.GetKeyDown(KeyCode.C))
+            {
+                Recenter();
+            }
+            if (Input.GetKeyDown(KeyCode.V))
+            {
+                Revertical();
+            }
+
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                SwitchFocus(0);
+            }
+            if (Input.GetKeyDown(KeyCode.W))
+            {
+                SwitchFocus(1);
+            }
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                SwitchFocus(2);
+            }
+
             if (Input.GetKeyDown(KeyCode.Comma))
             {
                 LastHuman();

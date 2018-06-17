@@ -1,7 +1,7 @@
-[LOG]: [FFmpegLib]: DEST URL: C:\Users\tz1\Documents/RockVR/Video/2018-06-15-23-08-17-X9Q6Y.mp4
-[LOG]: [FFmpegLib]: Build command: "C:/Users/tz1/Documents/OpenPoseUnityDemo/unitydemo/Assets/StreamingAssets/RockVR/FFmpeg/Windows/ffmpeg.exe" -f rawvideo -pix_fmt rgb24 -r 30 -s 1920x1080 -i - -y -preset ultrafast -pix_fmt yuv420p -vcodec libx264 -crf 18 -vf vflip -framerate 30 -tune zerolatency "C:\Users\tz1\Documents/RockVR/Video/2018-06-15-23-08-17-X9Q6Y.mp4"
-[LOG]: [FFmpegLib]: DEST URL: C:\Users\tz1\Documents/RockVR/Video/2018-06-15-23-08-17-MJ1PQ.wav
-[LOG]: [FFmpegLib]: Build command: "C:/Users/tz1/Documents/OpenPoseUnityDemo/unitydemo/Assets/StreamingAssets/RockVR/FFmpeg/Windows/ffmpeg.exe" -f f32le -ar 48000 -ac 2 -i - -y -preset ultrafast -tune zerolatency "C:\Users\tz1\Documents/RockVR/Video/2018-06-15-23-08-17-MJ1PQ.wav"
+[LOG]: [FFmpegLib]: DEST URL: C:\Users\tz1\Documents/RockVR/Video/2018-06-16-20-01-35-LRGC0.mp4
+[LOG]: [FFmpegLib]: Build command: "C:/Users/tz1/Documents/OpenPoseUnityDemo/unitydemo/Assets/StreamingAssets/RockVR/FFmpeg/Windows/ffmpeg.exe" -f rawvideo -pix_fmt rgb24 -r 30 -s 1920x1080 -i - -y -preset ultrafast -pix_fmt yuv420p -vcodec libx264 -crf 18 -vf vflip -framerate 30 -tune zerolatency "C:\Users\tz1\Documents/RockVR/Video/2018-06-16-20-01-35-LRGC0.mp4"
+[LOG]: [FFmpegLib]: DEST URL: C:\Users\tz1\Documents/RockVR/Video/2018-06-16-20-01-35-A1RVT.wav
+[LOG]: [FFmpegLib]: Build command: "C:/Users/tz1/Documents/OpenPoseUnityDemo/unitydemo/Assets/StreamingAssets/RockVR/FFmpeg/Windows/ffmpeg.exe" -f f32le -ar 48000 -ac 2 -i - -y -preset ultrafast -tune zerolatency "C:\Users\tz1\Documents/RockVR/Video/2018-06-16-20-01-35-A1RVT.wav"
 [LOG]: [FFmpegLib]: Write data bytes: 8192
 [LOG]: [FFmpegLib]: Write data bytes: 8192
 [LOG]: [FFmpegLib]: Write data bytes: 8192
@@ -56,9 +56,6 @@
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 8192
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
-[LOG]: [FFmpegLib]: Write data bytes: 6220800
-[LOG]: [FFmpegLib]: Write data bytes: 8192
-[LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 8192
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
@@ -72,7 +69,6 @@
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 8192
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
-[LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 8192
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
@@ -82,12 +78,9 @@
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 8192
-[LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
-[LOG]: [FFmpegLib]: Write data bytes: 8192
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 8192
-[LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 8192
@@ -95,21 +88,19 @@
 [LOG]: [FFmpegLib]: Write data bytes: 8192
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
+[LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 8192
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 8192
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
-[LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 8192
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 8192
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 8192
-[LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
-[LOG]: [FFmpegLib]: Write data bytes: 8192
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 8192
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
@@ -124,11 +115,7 @@
 [LOG]: [FFmpegLib]: Write data bytes: 8192
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
-[LOG]: [FFmpegLib]: Write data bytes: 8192
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
-[LOG]: [FFmpegLib]: Write data bytes: 8192
-[LOG]: [FFmpegLib]: Write data bytes: 8192
-[LOG]: [FFmpegLib]: Write data bytes: 8192
 [LOG]: [FFmpegLib]: Write data bytes: 8192
 [LOG]: [FFmpegLib]: Write data bytes: 8192
 [LOG]: [FFmpegLib]: Write data bytes: 8192
@@ -146,24 +133,45 @@
 [LOG]: [FFmpegLib]: Write data bytes: 8192
 [LOG]: [FFmpegLib]: Write data bytes: 8192
 [LOG]: [FFmpegLib]: Write data bytes: 8192
-[LOG]: [FFmpegLib]: Write data bytes: 8192
-[LOG]: [FFmpegLib]: Write data bytes: 8192
-[LOG]: [FFmpegLib]: Write data bytes: 8192
+[LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 8192
+[LOG]: [FFmpegLib]: Write data bytes: 6220800
+[LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 8192
+[LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 8192
+[LOG]: [FFmpegLib]: Write data bytes: 6220800
+[LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 8192
+[LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 8192
+[LOG]: [FFmpegLib]: Write data bytes: 6220800
+[LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 8192
+[LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 8192
+[LOG]: [FFmpegLib]: Write data bytes: 6220800
+[LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 8192
+[LOG]: [FFmpegLib]: Write data bytes: 6220800
+[LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 8192
+[LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 8192
+[LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 8192
+[LOG]: [FFmpegLib]: Write data bytes: 6220800
+[LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 8192
+[LOG]: [FFmpegLib]: Write data bytes: 6220800
+[LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 8192
+[LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 8192
+[LOG]: [FFmpegLib]: Write data bytes: 6220800
+[LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 8192
+[LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 8192
 [LOG]: [FFmpegLib]: Write data bytes: 8192
 [LOG]: [FFmpegLib]: Write data bytes: 8192
@@ -173,35 +181,17 @@
 [LOG]: [FFmpegLib]: Write data bytes: 8192
 [LOG]: [FFmpegLib]: Write data bytes: 8192
 [LOG]: [FFmpegLib]: Write data bytes: 8192
-[LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 8192
-[LOG]: [FFmpegLib]: Write data bytes: 6220800
-[LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 8192
-[LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 8192
-[LOG]: [FFmpegLib]: Write data bytes: 6220800
-[LOG]: [FFmpegLib]: Write data bytes: 6220800
-[LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 8192
-[LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 8192
-[LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 8192
-[LOG]: [FFmpegLib]: Write data bytes: 6220800
-[LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 8192
-[LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 8192
-[LOG]: [FFmpegLib]: Write data bytes: 6220800
-[LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 8192
-[LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 8192
-[LOG]: [FFmpegLib]: Write data bytes: 6220800
-[LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 8192
-[LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
@@ -216,16 +206,10 @@
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
-[LOG]: [FFmpegLib]: Write data bytes: 6220800
-[LOG]: [FFmpegLib]: Write data bytes: 6220800
-[LOG]: [FFmpegLib]: Write data bytes: 6220800
-[LOG]: [FFmpegLib]: Write data bytes: 6220800
-[LOG]: [FFmpegLib]: Write data bytes: 6220800
-[LOG]: [FFmpegLib]: Write data bytes: 6220800
-[LOG]: [FFmpegLib]: DEST URL: C:\Users\tz1\Documents/RockVR/Video/2018-06-15-23-08-24-PAMT7.mp4
-[LOG]: [FFmpegLib]: Build command: "C:/Users/tz1/Documents/OpenPoseUnityDemo/unitydemo/Assets/StreamingAssets/RockVR/FFmpeg/Windows/ffmpeg.exe" -f rawvideo -pix_fmt rgb24 -r 30 -s 1920x1080 -i - -y -preset ultrafast -pix_fmt yuv420p -vcodec libx264 -crf 18 -vf vflip -framerate 30 -tune zerolatency "C:\Users\tz1\Documents/RockVR/Video/2018-06-15-23-08-24-PAMT7.mp4"
-[LOG]: [FFmpegLib]: DEST URL: C:\Users\tz1\Documents/RockVR/Video/2018-06-15-23-08-17-MJ1PQ.wav
-[LOG]: [FFmpegLib]: Build command: "C:/Users/tz1/Documents/OpenPoseUnityDemo/unitydemo/Assets/StreamingAssets/RockVR/FFmpeg/Windows/ffmpeg.exe" -f f32le -ar 48000 -ac 2 -i - -y -preset ultrafast -tune zerolatency "C:\Users\tz1\Documents/RockVR/Video/2018-06-15-23-08-17-MJ1PQ.wav"
+[LOG]: [FFmpegLib]: DEST URL: C:\Users\tz1\Documents/RockVR/Video/2018-06-16-20-22-52-ER3P3.mp4
+[LOG]: [FFmpegLib]: Build command: "C:/Users/tz1/Documents/OpenPoseUnityDemo/unitydemo/Assets/StreamingAssets/RockVR/FFmpeg/Windows/ffmpeg.exe" -f rawvideo -pix_fmt rgb24 -r 30 -s 1920x1080 -i - -y -preset ultrafast -pix_fmt yuv420p -vcodec libx264 -crf 18 -vf vflip -framerate 30 -tune zerolatency "C:\Users\tz1\Documents/RockVR/Video/2018-06-16-20-22-52-ER3P3.mp4"
+[LOG]: [FFmpegLib]: DEST URL: C:\Users\tz1\Documents/RockVR/Video/2018-06-16-20-22-52-JZCBO.wav
+[LOG]: [FFmpegLib]: Build command: "C:/Users/tz1/Documents/OpenPoseUnityDemo/unitydemo/Assets/StreamingAssets/RockVR/FFmpeg/Windows/ffmpeg.exe" -f f32le -ar 48000 -ac 2 -i - -y -preset ultrafast -tune zerolatency "C:\Users\tz1\Documents/RockVR/Video/2018-06-16-20-22-52-JZCBO.wav"
 [LOG]: [FFmpegLib]: Write data bytes: 8192
 [LOG]: [FFmpegLib]: Write data bytes: 8192
 [LOG]: [FFmpegLib]: Write data bytes: 8192
@@ -283,7 +267,6 @@
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 8192
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
-[LOG]: [FFmpegLib]: Write data bytes: 8192
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 8192
@@ -296,7 +279,6 @@
 [LOG]: [FFmpegLib]: Write data bytes: 8192
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
-[LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 8192
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 8192
@@ -307,10 +289,8 @@
 [LOG]: [FFmpegLib]: Write data bytes: 8192
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
-[LOG]: [FFmpegLib]: Write data bytes: 8192
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 8192
-[LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 8192
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
@@ -322,12 +302,6 @@
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 8192
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
-[LOG]: [FFmpegLib]: Write data bytes: 6220800
-[LOG]: [FFmpegLib]: Write data bytes: 8192
-[LOG]: [FFmpegLib]: Write data bytes: 6220800
-[LOG]: [FFmpegLib]: Write data bytes: 8192
-[LOG]: [FFmpegLib]: Write data bytes: 6220800
-[LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 8192
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
@@ -338,10 +312,8 @@
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 8192
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
-[LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 8192
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
-[LOG]: [FFmpegLib]: Write data bytes: 8192
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 8192
@@ -352,39 +324,18 @@
 [LOG]: [FFmpegLib]: Write data bytes: 8192
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
-[LOG]: [FFmpegLib]: Write data bytes: 8192
-[LOG]: [FFmpegLib]: Write data bytes: 8192
-[LOG]: [FFmpegLib]: Write data bytes: 8192
 [LOG]: [FFmpegLib]: Write data bytes: 8192
-[LOG]: [FFmpegLib]: Write data bytes: 8192
-[LOG]: [FFmpegLib]: Write data bytes: 8192
-[LOG]: [FFmpegLib]: Write data bytes: 8192
-[LOG]: [FFmpegLib]: Write data bytes: 8192
-[LOG]: [FFmpegLib]: Write data bytes: 8192
-[LOG]: [FFmpegLib]: Write data bytes: 8192
-[LOG]: [FFmpegLib]: Write data bytes: 8192
-[LOG]: [FFmpegLib]: Write data bytes: 8192
-[LOG]: [FFmpegLib]: Write data bytes: 8192
-[LOG]: [FFmpegLib]: Write data bytes: 8192
-[LOG]: [FFmpegLib]: Write data bytes: 8192
-[LOG]: [FFmpegLib]: Write data bytes: 8192
-[LOG]: [FFmpegLib]: Write data bytes: 8192
-[LOG]: [FFmpegLib]: Write data bytes: 6220800
-[LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
-[LOG]: [FFmpegLib]: Write data bytes: 6220800
-[LOG]: [FFmpegLib]: Write data bytes: 6220800
-[LOG]: [FFmpegLib]: Write data bytes: 6220800
+[LOG]: [FFmpegLib]: Write data bytes: 8192
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
+[LOG]: [FFmpegLib]: Write data bytes: 8192
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
+[LOG]: [FFmpegLib]: Write data bytes: 8192
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
-[LOG]: [FFmpegLib]: DEST URL: C:\Users\tz1\Documents/RockVR/Video/2018-06-16-15-27-50-USJKR.mp4
-[LOG]: [FFmpegLib]: Build command: "C:/Users/tz1/Documents/OpenPoseUnityDemo/unitydemo/Assets/StreamingAssets/RockVR/FFmpeg/Windows/ffmpeg.exe" -f rawvideo -pix_fmt rgb24 -r 30 -s 1920x1080 -i - -y -preset ultrafast -pix_fmt yuv420p -vcodec libx264 -crf 18 -vf vflip -framerate 30 -tune zerolatency "C:\Users\tz1\Documents/RockVR/Video/2018-06-16-15-27-50-USJKR.mp4"
-[LOG]: [FFmpegLib]: DEST URL: C:\Users\tz1\Documents/RockVR/Video/2018-06-16-15-27-51-SW2TI.wav
-[LOG]: [FFmpegLib]: Build command: "C:/Users/tz1/Documents/OpenPoseUnityDemo/unitydemo/Assets/StreamingAssets/RockVR/FFmpeg/Windows/ffmpeg.exe" -f f32le -ar 48000 -ac 2 -i - -y -preset ultrafast -tune zerolatency "C:\Users\tz1\Documents/RockVR/Video/2018-06-16-15-27-51-SW2TI.wav"
 [LOG]: [FFmpegLib]: Write data bytes: 8192
+[LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 8192
 [LOG]: [FFmpegLib]: Write data bytes: 8192
 [LOG]: [FFmpegLib]: Write data bytes: 8192
@@ -431,13 +382,10 @@
 [LOG]: [FFmpegLib]: Write data bytes: 8192
 [LOG]: [FFmpegLib]: Write data bytes: 8192
 [LOG]: [FFmpegLib]: Write data bytes: 8192
-[LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 8192
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
-[LOG]: [FFmpegLib]: Write data bytes: 8192
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 8192
-[LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 8192
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
@@ -452,18 +400,20 @@
 [LOG]: [FFmpegLib]: Write data bytes: 8192
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
+[LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 8192
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 8192
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 8192
-[LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 8192
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
+[LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 8192
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
+[LOG]: [FFmpegLib]: Write data bytes: 8192
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 8192
@@ -474,7 +424,9 @@
 [LOG]: [FFmpegLib]: Write data bytes: 8192
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 8192
+[LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
+[LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 8192
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
@@ -499,6 +451,7 @@
 [LOG]: [FFmpegLib]: Write data bytes: 8192
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 8192
+[LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 8192
@@ -509,16 +462,11 @@
 [LOG]: [FFmpegLib]: Write data bytes: 8192
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 8192
-[LOG]: [FFmpegLib]: Write data bytes: 6220800
-[LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 8192
-[LOG]: [FFmpegLib]: Write data bytes: 6220800
-[LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 8192
-[LOG]: [FFmpegLib]: Write data bytes: 6220800
-[LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 8192
-[LOG]: [FFmpegLib]: Write data bytes: 6220800
+[LOG]: [FFmpegLib]: Write data bytes: 8192
+[LOG]: [FFmpegLib]: Write data bytes: 8192
 [LOG]: [FFmpegLib]: Write data bytes: 8192
 [LOG]: [FFmpegLib]: Write data bytes: 8192
 [LOG]: [FFmpegLib]: Write data bytes: 8192
@@ -528,6 +476,47 @@
 [LOG]: [FFmpegLib]: Write data bytes: 8192
 [LOG]: [FFmpegLib]: Write data bytes: 8192
 [LOG]: [FFmpegLib]: Write data bytes: 8192
+[LOG]: [FFmpegLib]: Write data bytes: 8192
+[LOG]: [FFmpegLib]: Write data bytes: 8192
+[LOG]: [FFmpegLib]: Write data bytes: 8192
+[LOG]: [FFmpegLib]: Write data bytes: 8192
+[LOG]: [FFmpegLib]: Write data bytes: 8192
+[LOG]: [FFmpegLib]: Write data bytes: 8192
+[LOG]: [FFmpegLib]: Write data bytes: 8192
+[LOG]: [FFmpegLib]: Write data bytes: 8192
+[LOG]: [FFmpegLib]: Write data bytes: 8192
+[LOG]: [FFmpegLib]: Write data bytes: 8192
+[LOG]: [FFmpegLib]: Write data bytes: 8192
+[LOG]: [FFmpegLib]: Write data bytes: 8192
+[LOG]: [FFmpegLib]: Write data bytes: 8192
+[LOG]: [FFmpegLib]: Write data bytes: 8192
+[LOG]: [FFmpegLib]: Write data bytes: 8192
+[LOG]: [FFmpegLib]: Write data bytes: 8192
+[LOG]: [FFmpegLib]: Write data bytes: 8192
+[LOG]: [FFmpegLib]: Write data bytes: 8192
+[LOG]: [FFmpegLib]: Write data bytes: 8192
+[LOG]: [FFmpegLib]: Write data bytes: 8192
+[LOG]: [FFmpegLib]: Write data bytes: 8192
+[LOG]: [FFmpegLib]: Write data bytes: 8192
+[LOG]: [FFmpegLib]: Write data bytes: 6220800
+[LOG]: [FFmpegLib]: Write data bytes: 6220800
+[LOG]: [FFmpegLib]: Write data bytes: 6220800
+[LOG]: [FFmpegLib]: Write data bytes: 6220800
+[LOG]: [FFmpegLib]: Write data bytes: 6220800
+[LOG]: [FFmpegLib]: Write data bytes: 6220800
+[LOG]: [FFmpegLib]: Write data bytes: 6220800
+[LOG]: [FFmpegLib]: Write data bytes: 6220800
+[LOG]: [FFmpegLib]: Write data bytes: 6220800
+[LOG]: [FFmpegLib]: Write data bytes: 6220800
+[LOG]: [FFmpegLib]: Write data bytes: 6220800
+[LOG]: [FFmpegLib]: Write data bytes: 6220800
+[LOG]: [FFmpegLib]: Write data bytes: 6220800
+[LOG]: [FFmpegLib]: Write data bytes: 6220800
+[LOG]: [FFmpegLib]: Write data bytes: 6220800
+[LOG]: [FFmpegLib]: Write data bytes: 6220800
+[LOG]: [FFmpegLib]: Write data bytes: 6220800
+[LOG]: [FFmpegLib]: Write data bytes: 6220800
+[LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 6220800
 [LOG]: [FFmpegLib]: Write data bytes: 6220800

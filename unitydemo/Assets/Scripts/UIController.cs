@@ -10,12 +10,17 @@ namespace opdemo
 
         [SerializeField] Text IPText;
 
+        [SerializeField] GameObject InterpolationToggle;
+        [SerializeField] GameObject StepsNumber;
+
         // Use this for initialization
         void Start()
         {
             switch (Controller.Mode)
             {
                 case PlayMode.Stream: InitStreamUI(); break;
+                case PlayMode.FileJson: InitBvhJsonUI(); break;
+                case PlayMode.FileBvh: InitBvhJsonUI(); break;
             }
         }
 
@@ -33,6 +38,14 @@ namespace opdemo
                 }
             }
             IPText.text = "IP: " + ipAddress + "\nPort: " + port;
+            StepsNumber.SetActive(true);
+            InterpolationToggle.SetActive(false);
+        }
+
+        private void InitBvhJsonUI()
+        {
+            StepsNumber.SetActive(false);
+            InterpolationToggle.SetActive(true);
         }
     }
 

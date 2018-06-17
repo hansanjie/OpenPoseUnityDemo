@@ -9,7 +9,7 @@ namespace opdemo
     [CustomEditor(typeof(CharacterAnimController))]
     public class FacialRotationConfiture : Editor
     {
-        public override void OnInspectorGUI()
+        /*public override void OnInspectorGUI()
         {
             DrawDefaultInspector();
 
@@ -32,7 +32,7 @@ namespace opdemo
             {
                 ((CharacterAnimController)target).ShowFullFacialRotations();
             }
-        }
+        }*/
     }
 }
 /**/

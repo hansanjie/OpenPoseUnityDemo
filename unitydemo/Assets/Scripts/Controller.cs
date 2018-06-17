@@ -11,8 +11,8 @@ namespace opdemo
         private static Controller instance = null;
 
         // Code settings
-        public bool DefaultAllowInterpolation = false;
-        public int InBetweenStepNumber = 2;
+        public bool DefaultAllowInterpolation = true;
+        public int DefaultInterpolationStepNumber = 2;
         public bool AllowFeetStablization = true;
         public int StablizationCompareSequence = 3;
         public float StableMovementThreshold = 0.02f;
@@ -41,16 +41,22 @@ namespace opdemo
         {
             mode = PlayMode.FileJson;
             string fileName = FileBrowser.OpenSingleFile("Load JSON", "", "json");
-            DataFrameController.FileName = fileName;
-            LoadMain();
+            if (fileName.CompareTo("") != 0)
+            {
+                DataFrameController.FileName = fileName;
+                LoadMain();
+            }
         }
 
         public void SelectBvh()
         {
             mode = PlayMode.FileBvh;
             string fileName = FileBrowser.OpenSingleFile("Load BVH", "", "bvh");
-            DataFrameController.FileName = fileName;
-            LoadMain();
+            if (fileName.CompareTo("") != 0)
+            {
+                DataFrameController.FileName = fileName;
+                LoadMain();
+            }
         }
 
         private void Awake()
@@ -61,7 +67,7 @@ namespace opdemo
         private void Start()
         {
             CharacterAnimController.AllowInterpolation = DefaultAllowInterpolation;
-            CharacterAnimController.InsertStepNumber = InBetweenStepNumber;
+            CharacterAnimController.InsertStepNumber = DefaultInterpolationStepNumber;
             CharacterAnimController.AllowVerticalStablization = AllowFeetStablization;
             CharacterAnimController.CompareDifference = StablizationCompareSequence;
             CharacterAnimController.VerticalMovementThres = StableMovementThreshold;
