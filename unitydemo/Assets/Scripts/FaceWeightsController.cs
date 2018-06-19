@@ -31,10 +31,10 @@ namespace opdemo
             {
                 case PlayMode.Stream:
                     // Update data
-                    if (UDPReceiver.IsDataNew())
-                    {
-                        frameData = AnimData.FromJsonData(UDPReceiver.ReceivedData);
-                        UpdateFace();
+                    //if (UDPReceiver.IsDataNew())
+                    //{
+                        //frameData = AnimData.FromJsonData(UDPReceiver.ReceivedData);
+                        //UpdateFace();
                         //interpolateFrameRest = UDPReceiver.EstimatedRestFrameTime;
                         // Calculate vertical stablization
                         //if (AllowVerticalStablization)
@@ -53,7 +53,7 @@ namespace opdemo
                             //StopCoroutine(InsertStepsCoroutine());
                             //StartCoroutine(InsertStepsCoroutine());
                         //}
-                    }
+                    //}
                     // Update model every frame for interpolation
                     //if (AllowInterpolation)
                     //{

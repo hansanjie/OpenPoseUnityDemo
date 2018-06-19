@@ -41,7 +41,8 @@ namespace opdemo
         public Vector3 totalPosition;
         public List<Vector3> jointAngles;
         public List<float> facialParams;
-        public float rootHeight;
+        //public float rootHeight;
+        public float receivedTime = -1f; // streaming use only
 
         public void ResetJointAngles(int size = 62)
         {

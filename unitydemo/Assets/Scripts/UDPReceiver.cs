@@ -6,6 +6,7 @@ using System.Text;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
+using UnityEngine.UI;
 
 namespace opdemo
 {
@@ -24,23 +25,22 @@ namespace opdemo
         public int port = 8051; // define > init
 
         // Data & timing
+        [SerializeField] float CurrentTimeRatio = 0.2f; [SerializeField] Text ratioText;
         public float FrameDelayCoef = 1.2f;
-        private string receivedData = "";
+        //private string receivedData = "";
         private float avgFrameTime = float.PositiveInfinity;
         private float currentFrameLength = 0f;
         private bool serverActive = false;
-        private bool newDataFlag = false;
+        //private bool newDataFlag = false;
 
         // Interface
         public static int PortNumber { get { return instance.port; } }
-        public static string ReceivedData { get { return instance.receivedData; } }
+        //public static string ReceivedData { get { return instance.receivedData; } }
         public static float AvgFrameTime { get { return instance.avgFrameTime * instance.FrameDelayCoef; } }
         public static float CurrentFrameLength { get { return instance.currentFrameLength; } }
         public static float EstimatedRestFrameTime { get { return AvgFrameTime - CurrentFrameLength; } }
-        public static bool IsDataNew()
-        {
-            return instance.newDataFlag;
-        }
+        //public static bool IsDataNew() { return instance.newDataFlag; }
+        public static bool IsServerActive() { return instance.serverActive; }
         public static void BeginReceiving()
         {
             instance.StartReceivingThread();
@@ -112,9 +112,10 @@ namespace opdemo
 
         private void InputText(string text)
         {
-            Debug.Log(">> " + text);
-            receivedData = text;
-            newDataFlag = true;
+            //Debug.Log(">> " + text);
+            //receivedData = text;
+            //newDataFlag = true;
+            StreamFrameController.AppendNewFrameJson(text);
 
             // timing
             float thisFrameTime = currentFrameLength;
@@ -130,8 +131,13 @@ namespace opdemo
                 }
             } else // continueous receiving
             {
-                avgFrameTime = 0.75f * avgFrameTime + 0.25f * thisFrameTime;
+                avgFrameTime = (1f - CurrentTimeRatio) * avgFrameTime + CurrentTimeRatio * thisFrameTime;
             }
+        }
+
+        public void SetRatio(float f) {
+            CurrentTimeRatio = f;
+            ratioText.text = f.ToString();
         }
 
         private void Update()
@@ -150,7 +156,7 @@ namespace opdemo
 
         private void LateUpdate()
         {
-            newDataFlag = false;
+            //newDataFlag = false;
         }
 
         // In case of abrupt exit of program

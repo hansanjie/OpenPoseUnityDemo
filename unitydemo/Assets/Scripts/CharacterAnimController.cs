@@ -337,26 +337,26 @@ namespace opdemo
                 case PlayMode.Stream:
                     {
                         // Update data
-                        if (UDPReceiver.IsDataNew())
+                        if (StreamFrameController.DataNew)
                         {
-                            frameData = AnimData.FromJsonData(UDPReceiver.ReceivedData);
-                            interpolateFrameRest = UDPReceiver.EstimatedRestFrameTime;
+                            frameData = StreamFrameController.GetCurrentFrame();
+                            //interpolateFrameRest = UDPReceiver.EstimatedRestFrameTime;
                             // Calculate vertical stablization
-                            if (AllowVerticalStablization)
-                            {
-                                UpdateModel(1f); // set to next state
-                                PushNewFeetHeights(); // calculate feet heights
-                                if (IsVerticalStable() || GetLowestFeetHeight() < 0f)
-                                {
-                                    HeightDiff -= GetLowestFeetHeight();
+                            if (frameData.isValid) {
+                                if (AllowVerticalStablization) {
+                                    UpdateModel(1f); // set to next state
+                                    PushNewFeetHeights(); // calculate feet heights
+                                    if (IsVerticalStable() || GetLowestFeetHeight() < 0f) {
+                                        HeightDiff -= GetLowestFeetHeight();
+                                    }
+                                    ChangeModelToLastSavedState(); // change the model state back
                                 }
-                                ChangeModelToLastSavedState(); // change the model state back
-                            }
-                            // New insert coroutine for new data
-                            //if (AllowInterpolation)
-                            {
-                                StopCoroutine(InsertStepsCoroutine());
-                                StartCoroutine(InsertStepsCoroutine());
+                                // New insert coroutine for new data
+                                //if (AllowInterpolation)
+                                {
+                                    StopCoroutine(InsertStepsCoroutine());
+                                    StartCoroutine(InsertStepsCoroutine());
+                                }
                             }
                         }
                         // Update model every frame for interpolation
