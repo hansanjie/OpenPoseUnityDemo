@@ -15,6 +15,9 @@ namespace opdemo
         // Singleton
         private static UDPReceiver instance = null;
 
+        // Debug
+        [SerializeField] bool LogOnReceive = false;
+
         // Threading
         private bool CloseThreadFlag = true;
         private Mutex ReceivingMutex = new Mutex();
@@ -25,7 +28,7 @@ namespace opdemo
         public int port = 8051; // define > init
 
         // Data & timing
-        [SerializeField] float CurrentTimeRatio = 0.2f; [SerializeField] Text ratioText;
+        public float CurrentTimeRatio = 0.2f;// [SerializeField] Text ratioText;
         public float FrameDelayCoef = 1.2f;
         //private string receivedData = "";
         private float avgFrameTime = float.PositiveInfinity;
@@ -112,7 +115,7 @@ namespace opdemo
 
         private void InputText(string text)
         {
-            //Debug.Log(">> " + text);
+            if (LogOnReceive) Debug.Log(">> " + text);
             //receivedData = text;
             //newDataFlag = true;
             StreamFrameController.AppendNewFrameJson(text);
@@ -135,10 +138,10 @@ namespace opdemo
             }
         }
 
-        public void SetRatio(float f) {
-            CurrentTimeRatio = f;
-            ratioText.text = f.ToString();
-        }
+        //public void SetRatio(float f) {
+            //CurrentTimeRatio = f;
+            //ratioText.text = f.ToString();
+        //}
 
         private void Update()
         {

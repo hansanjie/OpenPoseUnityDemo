@@ -124,11 +124,13 @@ namespace opdemo
         public void Recenter()
         {
             OffsetPosition += InitRootGlobalPosition - Joints[0].position;
+            UpdateModelAndFace();
         }
 
         public void Revertical()
         {
             OffsetRotation = Quaternion.Inverse(Joints[0].localRotation);
+            UpdateModelAndFace();
         }
 
         /*public void AdjustHeight()
@@ -341,8 +343,9 @@ namespace opdemo
                         {
                             frameData = StreamFrameController.GetCurrentFrame();
                             //interpolateFrameRest = UDPReceiver.EstimatedRestFrameTime;
-                            // Calculate vertical stablization
-                            if (frameData.isValid) {
+                            if (frameData.isValid)
+                            {
+                                // Calculate vertical stablization
                                 if (AllowVerticalStablization) {
                                     UpdateModel(1f); // set to next state
                                     PushNewFeetHeights(); // calculate feet heights
