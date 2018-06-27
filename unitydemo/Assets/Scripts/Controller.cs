@@ -17,7 +17,7 @@ namespace opdemo
         public int StablizationCompareSequence = 3;
         public float StableMovementThreshold = 0.02f;
 
-        private static PlayMode defaultMode = PlayMode.FileBvh;
+        private static PlayMode defaultMode = PlayMode.Stream;
 
         private PlayMode mode = PlayMode.Default;
 

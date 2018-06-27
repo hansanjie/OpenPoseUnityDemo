@@ -9,6 +9,7 @@ namespace opdemo
 {
     public class BvhPaser
     {
+        // This indexMap is used to map the BVH joint to OP joint ID
         // for OP bvh data
         public static int[] indexMap = { 0, 0, 1, 4, 7, -1, 0, 2, 5, 8, -1, 0, 3, 6, 9, 12, -1, 9, 13, 16, 18, -1, 20, 22, 23, 24, -1, 20, 26, 27, 28, -1, 20, 30, 31, 32, -1, 20, 34, 35, 36, -1, 20, 38, 39, 40, -1, 9, 14, 17, 19, -1, 21, 42, 43, 44, -1, 21, 46, 47, 48, -1, 21, 50, 51, 52, -1, 21, 54, 55, 56, -1, 21, 58, 59, 60, -1 };
         // for CMU mocap data
@@ -19,6 +20,7 @@ namespace opdemo
             return HierarchyToDataSet(BvhHierarchy.FromFileData(data));
         }
 
+        // Transit BVH data struct to AnimDataSet
         public static AnimDataSet HierarchyToDataSet(BvhHierarchy hierarchy)
         {
             if (hierarchy.nodes.Count != indexMap.Length)
@@ -82,7 +84,7 @@ namespace opdemo
     public class BvhHierarchy
     {
         public List<BvhNode> nodes = new List<BvhNode>();
-        public Dictionary<int, BvhNode> channelNodes = new Dictionary<int, BvhNode>();
+        public Dictionary<int, BvhNode> channelNodes = new Dictionary<int, BvhNode>(); // channels and indices
         public int frameNumber;
         public float frameTime;
         private int channelIndex = 0;
@@ -95,12 +97,11 @@ namespace opdemo
             Section currentSection = Section.NONE;
 
             string[] lines = fileData.Split('\n');
+            // Loop each line in file
             foreach (string str in lines)
-            {
-                
-                string str_noTab = Regex.Replace(str, @"\t", "");
+            {                
+                string str_noTab = Regex.Replace(str, @"\t", ""); // get rid of '\t'
                 List<string> args = str_noTab.Split(' ').ToList();
-                //if (args[0].StartsWith("\t")) Debug.Log("here");
                 if (args.Count == 0) continue;
                 try
                 {
@@ -139,6 +140,7 @@ namespace opdemo
                             break;
 
                         default:
+                            // Number lines
                             if (currentSection == Section.MOTION)
                             {
                                 if (!TryParsingNumbers(hierarchy, args))
@@ -220,7 +222,7 @@ namespace opdemo
         public BvhNodeType type;
         public string name;
         public Vector3 offset;
-        public Dictionary<int, string> channels = new Dictionary<int, string>();
+        public Dictionary<int, string> channels = new Dictionary<int, string>(); // its own channels and indices (search in the hierarchy)
         public BvhNode parent;
         public List<BvhNode> children = new List<BvhNode>();
 

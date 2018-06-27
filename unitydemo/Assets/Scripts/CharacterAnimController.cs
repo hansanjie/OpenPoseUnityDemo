@@ -77,6 +77,7 @@ namespace opdemo
             return true;
         }
 
+        // Initialize
         void Start()
         {
             if (Joints.Count == 0)
@@ -105,6 +106,7 @@ namespace opdemo
             }
         }*/
 
+        // Used in SceneController for camera focus
         public Transform GetFocusCenter(CamFocusPart focus)
         {
             switch (focus)
@@ -121,16 +123,19 @@ namespace opdemo
             }
         }
 
+        // Reset the model to the center
         public void Recenter()
         {
             OffsetPosition += InitRootGlobalPosition - Joints[0].position;
             UpdateModelAndFace();
         }
 
+        // Reset the model to vertical position
         public void Revertical()
         {
             OffsetRotation = Quaternion.Inverse(Joints[0].localRotation);
             UpdateModelAndFace();
+            Recenter();
         }
 
         /*public void AdjustHeight()
@@ -216,7 +221,7 @@ namespace opdemo
 
         private void UpdateModel(float interpolatePoint = 1f)
         {
-            // TODO: Unity and OP are using different coordinates, write a new script for transiting. 
+            // TODO: Unity and OP are using different coordinates, use Matrix to transfer.
 
             // Reset offsets
             transform.position = Vector3.zero;
