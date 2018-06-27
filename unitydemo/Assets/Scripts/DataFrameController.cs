@@ -28,7 +28,7 @@ namespace opdemo
         // Interface
         public static string FileName = "C:\\Users\\tz1\\Documents\\OpenPoseUnityDemo\\unitydemo\\Assets\\InputFiles\\new_full.bvh";
         public static bool IsReady { get { try { return instance.dataSet.isValid; } catch { return false; } } }
-        public static float RestFrameTime { get { return instance.frameTime - instance.accumulateFrameTime; } }
+        public static float RestFrameTime { get { return instance.frameTime / instance.speedMultiplier - instance.accumulateFrameTime; } }
         //public static List<Vector3> DefaultSkeletonData { get { if (IsReady) return instance.dataSet.default_skeleton; else return new List<Vector3>(); } }
         public static AnimData GetCurrentFrame()
         {

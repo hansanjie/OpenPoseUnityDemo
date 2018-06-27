@@ -10,8 +10,10 @@ namespace opdemo
 
         [SerializeField] Text IPText;
 
+        [SerializeField] GameObject OptionList;
         [SerializeField] GameObject InterpolationToggle;
         [SerializeField] GameObject StepsNumber;
+        [SerializeField] GameObject DataFrameControlUI;
 
         // Use this for initialization
         void Start()
@@ -22,6 +24,8 @@ namespace opdemo
                 case PlayMode.FileJson: InitBvhJsonUI(); break;
                 case PlayMode.FileBvh: InitBvhJsonUI(); break;
             }
+
+            
         }
 
         private void InitStreamUI()
@@ -38,14 +42,21 @@ namespace opdemo
                 }
             }
             IPText.text = "IP: " + ipAddress + "\nPort: " + port;
+
+            // UI elements
+            OptionList.SetActive(false);
             StepsNumber.SetActive(true);
             InterpolationToggle.SetActive(false);
+            DataFrameControlUI.SetActive(false);
         }
 
         private void InitBvhJsonUI()
         {
+            // UI elements
+            OptionList.SetActive(false);
             StepsNumber.SetActive(false);
             InterpolationToggle.SetActive(true);
+            DataFrameControlUI.SetActive(true);
         }
     }
 
