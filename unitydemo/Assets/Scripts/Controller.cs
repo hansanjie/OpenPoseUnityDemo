@@ -59,6 +59,11 @@ namespace opdemo
             }
         }
 
+        public void SelectFbx()
+        {
+
+        }
+
         private void Awake()
         {
             instance = this;
