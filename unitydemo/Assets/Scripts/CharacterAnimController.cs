@@ -127,14 +127,14 @@ namespace opdemo
         public void Recenter()
         {
             OffsetPosition += InitRootGlobalPosition - Joints[0].position;
-            transform.position = OffsetPosition;
+            UpdateModelAndFace();
         }
 
         // Reset the model to vertical position
         public void Revertical()
         {
-            OffsetRotation = Quaternion.Inverse(Joints[0].localRotation);            transform.rotation = OffsetRotation;
-
+            OffsetRotation = Quaternion.Inverse(Joints[0].localRotation);
+            UpdateModelAndFace();
             Recenter();
         }
 

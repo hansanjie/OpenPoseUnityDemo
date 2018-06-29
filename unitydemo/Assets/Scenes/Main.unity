@@ -3495,35 +3495,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 114413331191230112, guid: 3d6f1b144204e55489371f85d33bdf11,
-        type: 2}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 95279471574550338, guid: 3d6f1b144204e55489371f85d33bdf11,
-        type: 2}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 95279471574550338, guid: 3d6f1b144204e55489371f85d33bdf11,
-        type: 2}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 22100000, guid: 183a11f2f3819f9478079db85f705833,
-        type: 2}
-    - target: {fileID: 95279471574550338, guid: 3d6f1b144204e55489371f85d33bdf11,
-        type: 2}
-      propertyPath: m_ApplyRootMotion
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4088380245975170, guid: 3d6f1b144204e55489371f85d33bdf11, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0.06522565
-      objectReference: {fileID: 0}
-    - target: {fileID: 4088380245975170, guid: 3d6f1b144204e55489371f85d33bdf11, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: -0.031327613
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3d6f1b144204e55489371f85d33bdf11, type: 2}
   m_IsPrefabParent: 0
@@ -3724,48 +3695,6 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Slider+SliderEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!1 &549678094
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 549678096}
-  - component: {fileID: 549678095}
-  m_Layer: 0
-  m_Name: FbxLoader
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &549678095
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 549678094}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e178a5e4713a54248a3a67ec51541e47, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AnimatorController: {fileID: 9100000, guid: c920066332b0e4b45bbf42be5a0d5ffe, type: 2}
-  OverrideController: {fileID: 22100000, guid: 183a11f2f3819f9478079db85f705833, type: 2}
---- !u!4 &549678096
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 549678094}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 10
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &559394275
 GameObject:
   m_ObjectHideFlags: 0
