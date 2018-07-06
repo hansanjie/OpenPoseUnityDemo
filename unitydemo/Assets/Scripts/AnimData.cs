@@ -8,41 +8,54 @@ namespace opdemo
     [Serializable]
     public class AnimData
     {
+        public bool isValid = false;
+        public List<AnimUnitData> units = new List<AnimUnitData>();
+        public float receivedTime = -1; // used by StreamFrameController
+
         public AnimData()
         {
-            isValid = false;
-            jointAngles = new List<Vector3>();
-            facialParams = new List<float>();
+            
         }
 
-        public static AnimData FromJsonData(string data)
+        public static AnimData FromJsonData(string dataString)
         {
-            if (!data.StartsWith("AnimData:"))
+            if (!dataString.StartsWith("AnimData:"))
             {
                 return new AnimData();
-            } else
+            }
+            else
             {
-                string text = data.Substring(9); // get rid of "AnimData:"
+                string text = dataString.Substring("AnimData:".Length); // get rid of "AnimData:"
                 try
                 {
-                    AnimData animData = JsonUtility.FromJson<AnimData>(text);
-                    Validate(animData);
-                    return animData;
+                    AnimData data = JsonUtility.FromJson<AnimData>(text);
+                    data.isValid = true;
+                    return data;
                 }
                 catch (Exception err)
                 {
-                    Debug.Log(err.ToString());
+                    Debug.LogError(err.ToString());
                     Debug.Log(text);
                     return new AnimData();
                 }
             }
         }
-        public bool isValid;
+    }
+
+    [Serializable]
+    public class AnimUnitData
+    {
+        public bool isValid = false;
         public Vector3 totalPosition;
-        public List<Vector3> jointAngles;
-        public List<float> facialParams;
+        public List<Vector3> jointAngles = new List<Vector3>();
+        public List<float> facialParams = new List<float>();
         //public float rootHeight;
-        public float receivedTime = -1f; // streaming use only
+        //public float receivedTime = -1f; // streaming use only
+
+        public AnimUnitData()
+        {
+
+        }
 
         public void ResetJointAngles(int size = 62)
         {
@@ -68,7 +81,7 @@ namespace opdemo
             return ToRotation(jointAngles[index]);
         }
 
-        public static void Validate(AnimData data)
+        public static void Validate(AnimUnitData data)
         {
             if (data.jointAngles.Count >= 62)
             {
@@ -112,20 +125,17 @@ namespace opdemo
     [Serializable]
     public class AnimDataSet
     {
+        public bool isValid = false;
+        public float frameTime = 0.033333f;
+        public List<AnimData> dataList = new List<AnimData>();
+        //public List<Vector3> default_skeleton;
+
         public AnimDataSet()
         {
-            isValid = false;
-            frameTime = 0.033333f;
-            dataList = new List<AnimData>();
-            //default_skeleton = new List<Vector3>();
+
         }
 
-        public bool isValid;
-        public float frameTime;
-        public List<AnimData> dataList;
-        //public List<Vector3> default_skeleton;
-        
-        public static AnimDataSet FromJsonData(string text)
+        public static AnimDataSet FromJsonData(string text) // Json file mode
         {
             AnimDataSet dataSet = new AnimDataSet();
             try
@@ -133,7 +143,8 @@ namespace opdemo
                 dataSet = JsonUtility.FromJson<AnimDataSet>(text);
                 foreach (AnimData data in dataSet.dataList)
                 {
-                    AnimData.Validate(data);
+                    data.isValid = true;
+                    //AnimData.Validate(data);
                 }
                 dataSet.isValid = true;
             }
@@ -144,7 +155,7 @@ namespace opdemo
             return dataSet;
         }
 
-        public static AnimDataSet FromBvhData(string text)
+        public static AnimDataSet FromBvhData(string text) // Bvh file mode
         {
             return BvhPaser.BvhToDataSet(text);
         }

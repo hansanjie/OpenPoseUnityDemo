@@ -17,14 +17,14 @@ namespace opdemo {
         [SerializeField] Text delayText;
         [SerializeField] Text stepText;
 
-        private Queue<AnimData> frameQueue = new Queue<AnimData>();
-        private AnimData currentFrame = new AnimData();
+        private Queue<AnimUnitData> frameQueue = new Queue<AnimUnitData>();
+        private AnimUnitData currentFrame = new AnimUnitData();
 
         private float currentFrameTime = 0f;
         private float frameSpeedMultiplier = 1f;
 
         public static void AppendNewFrameJson(string json) {
-            AnimData frameData = AnimData.FromJsonData(json);
+            AnimUnitData frameData = new AnimUnitData();//.FromJsonData(json); // MODIFIED
             if (frameData.isValid) {
                 //frameData.receivedTime = Time.time;
                 //instance.StartCoroutine(SetReceiveTimeTo(frameData));
@@ -32,9 +32,9 @@ namespace opdemo {
             }
         }
 
-        public static AnimData GetCurrentFrame() {
+        public static AnimUnitData GetCurrentFrame() {
             if (instance.currentFrame != null) return instance.currentFrame;
-            else return new AnimData();
+            else return new AnimUnitData();
         }
 
         private static bool _dataNew = false;
@@ -78,14 +78,9 @@ namespace opdemo {
             SetDelayThres(thresholdFrameDelay - 0.1f);
         }
 
-        static IEnumerator SetReceiveTimeTo(AnimData data) {
-            yield return new WaitForEndOfFrame();
-            data.receivedTime = Time.time;
-        }
-
         // Update is called once per frame
         void Update() {
-            foreach (AnimData data in frameQueue) {
+            foreach (AnimUnitData data in frameQueue) {
                 if (data.receivedTime <= 0f) {
                     data.receivedTime = Time.time;
                 }

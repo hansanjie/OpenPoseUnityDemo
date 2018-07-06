@@ -30,7 +30,7 @@ namespace opdemo
         //[SerializeField] List<Quaternion> FacialFullRotations;
 
         // Animating data
-        private AnimData frameData = new AnimData();
+        private AnimUnitData frameData = new AnimUnitData();
         private Vector3 InitRootGlobalPosition;
         private Vector3 SavedRootPosition;
         private Vector3 NextRootPosition;

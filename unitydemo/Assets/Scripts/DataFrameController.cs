@@ -30,12 +30,12 @@ namespace opdemo
         public static bool IsReady { get { try { return instance.dataSet.isValid; } catch { return false; } } }
         public static float RestFrameTime { get { return instance.frameTime / instance.speedMultiplier - instance.accumulateFrameTime; } }
         //public static List<Vector3> DefaultSkeletonData { get { if (IsReady) return instance.dataSet.default_skeleton; else return new List<Vector3>(); } }
-        public static AnimData GetCurrentFrame()
+        public static AnimUnitData GetCurrentFrame()
         {
             if (IsReady)
                 return instance.dataSet.dataList[instance.currentFrameNumber];
             else
-                return new AnimData();
+                return new AnimUnitData();
         }
 
         private void Awake()

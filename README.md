@@ -65,3 +65,43 @@ Developed in Unity 2018.1.5f1 Personal.
 TriLib (not in use so far): http://ricardoreis.net/?p=14
 RockVR video capture: https://assetstore.unity.com/packages/tools/video/video-capture-75653
 File browser: https://assetstore.unity.com/packages/tools/gui/file-browser-windows-macos-98716
+
+# JSON data structure
+##Per frame data: (used in Stream mode)
+
+AnimData:
+{
+	"units": [
+		{
+			"id": 0,
+			"size": 0.0,
+			"totalPosition": {"x": 0.0, "y": 0.0, "z": 0.0}, 
+			"jointAngles": [{"x": 0.0, "y": 0.0, "z": 0.0}], 
+			"facialParams": [0.0, 0.0, 0.0]}
+		}
+	]
+}
+
+"AnimData": The prefix string of frame data, used to confirm the received data from random ones. 
+"units": List of people detected. 
+"id": (int) Each detected person has a unique ID to distinguish from others.
+"size": (float) Refer to the size of the person in order to decide the scale of 3D model.
+"totalPosition": (Vector3) The global translation of the root joint.
+"jointAngles": (List<Vector3>) The local rotations of each joint (must be length of 62). The first rotation refers to the root rotation. 
+"facialParams": (List<float>) The parameters of facial blendshapes (must be length of 200). 
+
+##Whole animation data: (used in Json mode)
+
+{
+	"frameTime": 0.03
+	"dataList": [
+		{
+			"units": [
+				{ * Same with AnimData above * }
+			]
+		}
+	]
+}
+
+"frameTime": The duration of one frame in this animation file.
+"dataList": The list of all frames in this animation.

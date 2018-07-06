@@ -6,7 +6,7 @@ namespace opdemo
 {
     public class FaceWeightsController : MonoBehaviour
     {
-        private AnimData frameData;
+        private AnimUnitData frameData;
         private SkinnedMeshRenderer blendMesh { get { return GetComponent<SkinnedMeshRenderer>(); } }
         [SerializeField] float multiplier = 2f;
 
@@ -33,7 +33,7 @@ namespace opdemo
                     // Update data
                     //if (UDPReceiver.IsDataNew())
                     //{
-                        //frameData = AnimData.FromJsonData(UDPReceiver.ReceivedData);
+                        //frameData = AnimUnitData.FromJsonData(UDPReceiver.ReceivedData);
                         //UpdateFace();
                         //interpolateFrameRest = UDPReceiver.EstimatedRestFrameTime;
                         // Calculate vertical stablization

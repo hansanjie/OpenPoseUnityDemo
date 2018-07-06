@@ -39,7 +39,7 @@ namespace opdemo
                     Debug.Log("Invalid number of numbers");
                     return new AnimDataSet();
                 }
-                AnimData data = new AnimData();
+                AnimUnitData data = new AnimUnitData();
                 data.ResetJointAngles();
                 data.isValid = true;
                 // Loop each node
@@ -67,10 +67,10 @@ namespace opdemo
                     if (opIndex == 0)
                     {
                         if (pos != new Vector3()) data.totalPosition = pos;
-                        if (rot != new Vector3()) data.jointAngles[opIndex] = AnimData.AdamToUnityEuler(rot);
+                        if (rot != new Vector3()) data.jointAngles[opIndex] = AnimUnitData.AdamToUnityEuler(rot);
                     } else
                     {
-                        if (rot != new Vector3()) data.jointAngles[opIndex] = AnimData.AdamToUnityEuler(rot);
+                        if (rot != new Vector3()) data.jointAngles[opIndex] = AnimUnitData.AdamToUnityEuler(rot);
                     }
                 }
                 //data.jointAngles[0] += Vector3.left * 180f;
