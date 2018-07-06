@@ -8,14 +8,10 @@ namespace opdemo
     [Serializable]
     public class AnimData
     {
-        public bool isValid = false;
         public List<AnimUnitData> units = new List<AnimUnitData>();
-        public float receivedTime = -1; // used by StreamFrameController
 
-        public AnimData()
-        {
-            
-        }
+        //public bool isValid = false;
+        public float receivedTime = -1; // used by StreamFrameController
 
         public static AnimData FromJsonData(string dataString)
         {
@@ -29,7 +25,12 @@ namespace opdemo
                 try
                 {
                     AnimData data = JsonUtility.FromJson<AnimData>(text);
-                    data.isValid = true;
+                    foreach (AnimUnitData unit in data.units)
+                    {
+                        unit.JsonInputToUnitySystem();
+                        unit.isValid = true;
+                    }
+                    //data.isValid = true;
                     return data;
                 }
                 catch (Exception err)
@@ -46,16 +47,11 @@ namespace opdemo
     public class AnimUnitData
     {
         public bool isValid = false;
+        public int id;
+        public float size = 1f;
         public Vector3 totalPosition;
         public List<Vector3> jointAngles = new List<Vector3>();
         public List<float> facialParams = new List<float>();
-        //public float rootHeight;
-        //public float receivedTime = -1f; // streaming use only
-
-        public AnimUnitData()
-        {
-
-        }
 
         public void ResetJointAngles(int size = 62)
         {
@@ -63,6 +59,36 @@ namespace opdemo
             for (int i = 0; i < size; i++)
             {
                 jointAngles.Add(new Vector3());
+            }
+        }
+
+        public void JsonInputToUnitySystem()
+        {
+            if (jointAngles.Count >= 62)
+            {
+                jointAngles[0] = AxisAngleToUnityEuler(jointAngles[0]); // jointAngles[0] is in angle axis
+                for (int i = 1; i < jointAngles.Count; i++)
+                {
+                    jointAngles[i] = AdamToUnityEuler(jointAngles[i]);
+                }
+            } else
+            {
+                Debug.Log("too short data length");
+            }
+        }
+
+        public void BvhInputToUnitySystem()
+        {
+            if (jointAngles.Count >= 62)
+            {
+                for (int i = 0; i < jointAngles.Count; i++)
+                {
+                    jointAngles[i] = AdamToUnityEuler(jointAngles[i]);
+                }
+            }
+            else
+            {
+                Debug.Log("too short data length");
             }
         }
 
@@ -79,22 +105,6 @@ namespace opdemo
                 return Quaternion.identity;
             }
             return ToRotation(jointAngles[index]);
-        }
-
-        public static void Validate(AnimUnitData data)
-        {
-            if (data.jointAngles.Count >= 62)
-            {
-                data.jointAngles[0] = AxisAngleToUnityEuler(data.jointAngles[0]); // transit angle axis to euler
-                for (int i = 1; i < data.jointAngles.Count; i++)
-                {
-                    data.jointAngles[i] = AdamToUnityEuler(data.jointAngles[i]);
-                }
-                data.isValid = true;
-            } else
-            {
-                Debug.Log("too short data length");
-            }
         }
 
         public static Quaternion ToRotation(Vector3 angle) // deprecated
@@ -125,15 +135,9 @@ namespace opdemo
     [Serializable]
     public class AnimDataSet
     {
-        public bool isValid = false;
+        //public bool isValid = false;
         public float frameTime = 0.033333f;
         public List<AnimData> dataList = new List<AnimData>();
-        //public List<Vector3> default_skeleton;
-
-        public AnimDataSet()
-        {
-
-        }
 
         public static AnimDataSet FromJsonData(string text) // Json file mode
         {
@@ -143,10 +147,14 @@ namespace opdemo
                 dataSet = JsonUtility.FromJson<AnimDataSet>(text);
                 foreach (AnimData data in dataSet.dataList)
                 {
+                    foreach (AnimUnitData unit in data.units)
+                    {
+                        unit.JsonInputToUnitySystem();
+                        unit.isValid = true;
+                    }
                     data.isValid = true;
-                    //AnimData.Validate(data);
                 }
-                dataSet.isValid = true;
+                //dataSet.isValid = true;
             }
             catch (Exception err)
             {

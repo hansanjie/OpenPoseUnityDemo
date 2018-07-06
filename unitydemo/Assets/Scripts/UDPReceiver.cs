@@ -118,7 +118,7 @@ namespace opdemo
             if (LogOnReceive) Debug.Log(">> " + text);
             //receivedData = text;
             //newDataFlag = true;
-            StreamFrameController.AppendNewFrameJson(text);
+            StreamFrameController.instance.AppendNewFrameJson(text);
 
             // timing
             float thisFrameTime = currentFrameLength;
