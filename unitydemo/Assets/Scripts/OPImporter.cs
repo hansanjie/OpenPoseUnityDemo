@@ -84,7 +84,7 @@ namespace opdemo
         // Use this for initialization
         void Start()
         {
-
+            
         }
 
         // Update is called once per frame
@@ -211,7 +211,7 @@ namespace opdemo
         public static string[] GenerateArgs()
         {
             List<string> args = new List<string>();
-            args.Add("this_should_be_program_name");
+            args.Add("program_name"); // First parameter always be the program name
             foreach (OPParameter p in paramList)
             {
                 if (p.usingDefault)
