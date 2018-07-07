@@ -19,7 +19,7 @@ namespace opdemo {
 
         // Frame data storage
         private Queue<AnimData> frameQueue = new Queue<AnimData>(); // frames awaits
-        private AnimData currentFrame = new AnimData();
+        private AnimData currentFrame;
 
         // Time controlling variables
         private float currentTime = 0f; // for setting the received time for frames
@@ -35,18 +35,6 @@ namespace opdemo {
         public AnimData GetCurrentFrame() {
             if (currentFrame != null) return currentFrame;
             else return null;
-        }
-        private static bool _dataNew = false;
-        public static bool DataNew { // temp solution: only obtain once
-            get {
-                if (_dataNew) {
-                    _dataNew = false;
-                    return true;
-                } else return false;
-            }
-            set {
-                _dataNew = value;
-            }
         }
 
         // UI
@@ -75,7 +63,7 @@ namespace opdemo {
                         if (frameQueue.Count > 0) {
                             currentFrame = frameQueue.Dequeue();
                             currentFrameTime = 0f; // -= UDPReceiver.AvgFrameTime / frameSpeedMultiplier;
-                            DataNew = true;
+                            CharacterAnimController.PushNewFrameData(currentFrame);
                             //Debug.Log(Time.time - currentFrame.receivedTime);
                             if (Time.time - currentFrame.receivedTime > thresholdFrameDelay) { // play too slow
                                 frameSpeedMultiplier *= latePenaltyMultiplier;

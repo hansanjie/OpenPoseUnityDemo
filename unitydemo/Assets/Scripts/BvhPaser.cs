@@ -11,7 +11,7 @@ namespace opdemo
     {
         // This indexMap is used to map the BVH joint to OP joint ID
         // for OP bvh data
-        public static int[] indexMap = { 0, 0, 1, 4, 7, -1, 0, 2, 5, 8, -1, 0, 3, 6, 9, 12, -1, 9, 13, 16, 18, -1, 20, 22, 23, 24, -1, 20, 26, 27, 28, -1, 20, 30, 31, 32, -1, 20, 34, 35, 36, -1, 20, 38, 39, 40, -1, 9, 14, 17, 19, -1, 21, 42, 43, 44, -1, 21, 46, 47, 48, -1, 21, 50, 51, 52, -1, 21, 54, 55, 56, -1, 21, 58, 59, 60, -1 };
+        private static int[] indexMap = { 0, 0, 1, 4, 7, -1, 0, 2, 5, 8, -1, 0, 3, 6, 9, 12, -1, 9, 13, 16, 18, -1, 20, 22, 23, 24, -1, 20, 26, 27, 28, -1, 20, 30, 31, 32, -1, 20, 34, 35, 36, -1, 20, 38, 39, 40, -1, 9, 14, 17, 19, -1, 21, 42, 43, 44, -1, 21, 46, 47, 48, -1, 21, 50, 51, 52, -1, 21, 54, 55, 56, -1, 21, 58, 59, 60, -1 };
         // for CMU mocap data
         //public static int[] indexMap = { 0, -1, 0, 1, 4, 7, -1, -1, 0, 2, 5, 8, -1, 0, 3, 6, 9, 12, 15, -1, 9, 13, 16, 18, 20, 26, -1, 22, -1, 9, 14, 17, 19, 21, 46, -1, 42, -1, };
 
@@ -30,7 +30,6 @@ namespace opdemo
             }
             AnimDataSet dataSet = new AnimDataSet();
             dataSet.frameTime = hierarchy.frameTime;
-            dataSet.isValid = true;
             // Loop each frame
             foreach (List<float> numbers in hierarchy.frames)
             {
@@ -39,9 +38,11 @@ namespace opdemo
                     Debug.Log("Invalid number of numbers");
                     return new AnimDataSet();
                 }
-                AnimUnitData data = new AnimUnitData();
-                data.ResetJointAngles();
-                data.isValid = true;
+                AnimData data = new AnimData();
+                AnimUnitData unitData = new AnimUnitData();
+                unitData.ResetJointAngles();
+                unitData.id = 0;
+                unitData.size = 1f;
                 // Loop each node
                 for (int i = 0; i < hierarchy.nodes.Count; i++)
                 {
@@ -66,14 +67,15 @@ namespace opdemo
                     }
                     if (opIndex == 0)
                     {
-                        if (pos != new Vector3()) data.totalPosition = pos;
-                        if (rot != new Vector3()) data.jointAngles[opIndex] = AnimUnitData.AdamToUnityEuler(rot);
+                        if (pos != new Vector3()) unitData.totalPosition = pos;
+                        if (rot != new Vector3()) unitData.jointAngles[opIndex] = AnimUnitData.AdamToUnityEuler(rot);
                     } else
                     {
-                        if (rot != new Vector3()) data.jointAngles[opIndex] = AnimUnitData.AdamToUnityEuler(rot);
+                        if (rot != new Vector3()) unitData.jointAngles[opIndex] = AnimUnitData.AdamToUnityEuler(rot);
                     }
                 }
                 //data.jointAngles[0] += Vector3.left * 180f;
+                data.units.Add(unitData);
                 dataSet.dataList.Add(data);
             }
             //Debug.Log(dataSet.dataLis);
@@ -88,6 +90,7 @@ namespace opdemo
         public int frameNumber;
         public float frameTime;
         private int channelIndex = 0;
+
         public List<List<float>> frames = new List<List<float>>();
 
         public static BvhHierarchy FromFileData(string fileData)
@@ -107,6 +110,8 @@ namespace opdemo
                 {
                     switch (args[0].Trim())
                     {
+                        case "": break;
+
                         case "HIERARCHY": currentSection = Section.HIERARCHY; break;
                         case "MOTION": currentSection = Section.MOTION; break;
 

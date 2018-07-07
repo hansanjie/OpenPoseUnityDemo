@@ -28,7 +28,6 @@ namespace opdemo
                     foreach (AnimUnitData unit in data.units)
                     {
                         unit.JsonInputToUnitySystem();
-                        unit.isValid = true;
                     }
                     //data.isValid = true;
                     return data;
@@ -46,7 +45,6 @@ namespace opdemo
     [Serializable]
     public class AnimUnitData
     {
-        public bool isValid = false;
         public int id;
         public float size = 1f;
         public Vector3 totalPosition;
@@ -150,11 +148,8 @@ namespace opdemo
                     foreach (AnimUnitData unit in data.units)
                     {
                         unit.JsonInputToUnitySystem();
-                        unit.isValid = true;
                     }
-                    data.isValid = true;
                 }
-                //dataSet.isValid = true;
             }
             catch (Exception err)
             {

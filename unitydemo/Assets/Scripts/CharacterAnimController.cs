@@ -24,13 +24,32 @@ namespace opdemo
         [SerializeField] float facialParamMultiplier = 2f;
         [SerializeField] SkinnedMeshRenderer blendMesh;
         [SerializeField] List<Transform> Joints;
-        //[SerializeField] List<Transform> FacialJoints;
         [SerializeField] List<Transform> LowerFeetIndicators;
-        //[SerializeField] List<Quaternion> FacialInitRotations;
-        //[SerializeField] List<Quaternion> FacialFullRotations;
+
+        // Multi-person controlling
+        private static Dictionary<int, CharacterAnimController> animControllers = new Dictionary<int, CharacterAnimController>();
+        private static AnimData frameData;
+        public static void PushNewFrameData(AnimData animData)
+        {
+            if (animData != null)
+            {
+                frameData = animData;
+                foreach (AnimUnitData unitData in frameData.units)
+                {
+                    CharacterAnimController animController;
+                    if (animControllers.TryGetValue(unitData.id, out animController)) // unit exist
+                    {
+                        animController.PushNewUnitData(unitData);
+                    } else
+                    {
+                        // new model
+                    }
+                }
+            }
+        }
 
         // Animating data
-        private AnimUnitData frameData = new AnimUnitData();
+        private AnimUnitData unitFrameData = new AnimUnitData();
         private Vector3 InitRootGlobalPosition;
         private Vector3 SavedRootPosition;
         private Vector3 NextRootPosition;
@@ -38,6 +57,10 @@ namespace opdemo
         private Dictionary<int, Quaternion> SavedRotations = new Dictionary<int, Quaternion>();
         private Dictionary<int, Quaternion> NextRotations = new Dictionary<int, Quaternion>();
         private float interpolateFrameRest;
+        public void PushNewUnitData(AnimUnitData unitData)
+        {
+            // TODO
+        }        
 
         // Vertical stablization
         private float HeightDiff;
@@ -95,16 +118,6 @@ namespace opdemo
             }
             InitRootGlobalPosition = Joints[0].position;
         }
-        
-        /*private void InitSkeleton(List<Vector3> posList) // deprecated
-        {
-            Debug.Log(posList.Count);
-            for (int i = 0; i < Mathf.Min(Joints.Count, posList.Count); i++)
-            {
-                if (Joints[i] == null) continue;
-                Joints[i].position = new Vector3(-posList[i].x, posList[i].y, posList[i].z) / 100f;
-            }
-        }*/
 
         // Used in SceneController for camera focus
         public Transform GetFocusCenter(CamFocusPart focus)
@@ -138,78 +151,7 @@ namespace opdemo
 
             Recenter();
         }
-
-        /*public void AdjustHeight()
-        {
-            //float humanRootHeight = frameData.rootHeight / 100f;
-            //float modelRootHeight = InitRootPosition.y;
-            HeightDifference.y = InitRootPosition.y - frameData.rootHeight / 100f;
-        }*/
-
-        /*[ExecuteInEditMode]
-        public void ConfigureInitFacialRotations()
-        {
-            FacialInitRotations = new List<Quaternion>();
-            foreach(Transform j in FacialJoints)
-            {
-                Quaternion q = new Quaternion();
-                if (j != null)
-                {
-                    q = j.localRotation;
-                }
-                FacialInitRotations.Add(q);
-            }
-        }
-
-        [ExecuteInEditMode]
-        public void ShowInitFacialRotations()
-        {
-            if (FacialInitRotations.Count < FacialJoints.Count)
-            {
-                Debug.LogError("Please configure first");
-                return;
-            }
-            for (int i = 0; i < FacialJoints.Count; i++)
-            {
-                if (FacialJoints[i] != null)
-                {
-                    FacialJoints[i].localRotation = FacialInitRotations[i];
-                }
-            }
-        }
-
-        [ExecuteInEditMode]
-        public void ConfigureFullFacialRotations()
-        {
-            FacialFullRotations = new List<Quaternion>();
-            foreach (Transform j in FacialJoints)
-            {
-                Quaternion q = new Quaternion();
-                if (j != null)
-                {
-                    q = j.localRotation;
-                }
-                FacialFullRotations.Add(q);
-            }
-        }
-
-        [ExecuteInEditMode]
-        public void ShowFullFacialRotations()
-        {
-            if (FacialFullRotations.Count < FacialJoints.Count)
-            {
-                Debug.LogError("Please configure first");
-                return;
-            }
-            for (int i = 0; i < FacialJoints.Count; i++)
-            {
-                if (FacialJoints[i] != null)
-                {
-                    FacialJoints[i].localRotation = FacialFullRotations[i];
-                }
-            }
-        }*/
-
+        
         private void ChangeModelToLastSavedState()
         {
             Joints[0].localPosition = SavedRootPosition;
@@ -230,7 +172,7 @@ namespace opdemo
 
             // Global translation
             SavedRootPosition = Joints[0].localPosition;
-            NextRootPosition = -frameData.totalPosition / 100f;
+            NextRootPosition = -unitFrameData.totalPosition / 100f;
             Joints[0].localPosition = Vector3.Lerp(SavedRootPosition, NextRootPosition, interpolatePoint);
             // Global rotation
             /*Vector3 axisAngle = new Vector3(-frameData.jointAngles[0].x, frameData.jointAngles[0].y, frameData.jointAngles[0].z);
@@ -251,7 +193,7 @@ namespace opdemo
                 if (Joints[i] == null) continue;
                 Joints[i].localRotation = InitRotations[i];
                 //if (i == 0) Joints[0].Rotate(180f, 0f, 0f, Space.World);
-                Joints[i].Rotate(frameData.jointAngles[i], Space.World);
+                Joints[i].Rotate(unitFrameData.jointAngles[i], Space.World);
                 if (i == 0) 
                 {
                     Joints[0].Rotate(180f, 0f, 0f, Space.World); // upside down
@@ -282,29 +224,12 @@ namespace opdemo
         {
             if (AllowFacialAnim)
             {
-                /*for (int i = 0; i < Mathf.Min(1, FacialJoints.Count); i++)
-                {
-                    if (FacialJoints[i] != null)
-                    {
-                        Quaternion goalRotation = Quaternion.Lerp(FacialInitRotations[i], FacialFullRotations[i], frameData.facialParams[i]);
-                        FacialJoints[i].localRotation = Quaternion.Lerp(FacialJoints[i].localRotation, goalRotation, interpolatePoint);
-                    }
-                }
-                for (int i = 1; i < FacialJoints.Count; i++)
-                {
-                    if (FacialJoints[i] != null)
-                    {
-
-                        Quaternion goalRotation = Quaternion.Lerp(FacialInitRotations[i], FacialFullRotations[i], 1f - frameData.facialParams[i]);
-                        FacialJoints[i].localRotation = Quaternion.Lerp(FacialJoints[i].localRotation, goalRotation, interpolatePoint);
-                    }
-                }*/
                 if (blendMesh != null)
                 {
-                    for (int i = 0; i < frameData.facialParams.Count; i++)
+                    for (int i = 0; i < unitFrameData.facialParams.Count; i++)
                     {
                         float currentWeight = blendMesh.GetBlendShapeWeight(i);
-                        float interpolatedWeight = Mathf.Lerp(currentWeight, frameData.facialParams[i] * 100f / facialParamMultiplier, interpolatePoint);
+                        float interpolatedWeight = Mathf.Lerp(currentWeight, unitFrameData.facialParams[i] * 100f / facialParamMultiplier, interpolatePoint);
                         blendMesh.SetBlendShapeWeight(i, interpolatedWeight);
                     }
                 }
@@ -347,9 +272,9 @@ namespace opdemo
                         // Update data
                         if (StreamFrameController.DataNew)
                         {
-                            frameData = StreamFrameController.GetCurrentFrame();
+                            //unitFrameData = StreamFrameController.instance.GetCurrentFrame();
                             //interpolateFrameRest = UDPReceiver.EstimatedRestFrameTime;
-                            if (frameData.isValid)
+                            if (unitFrameData.isValid)
                             {
                                 // Calculate vertical stablization
                                 if (AllowVerticalStablization) {
@@ -380,10 +305,10 @@ namespace opdemo
                     break;
                 case PlayMode.FileJson:
                     {
-                        frameData = DataFrameController.GetCurrentFrame();
-                        bool newData = DataFrameController.RestFrameTime > interpolateFrameRest;
-                        interpolateFrameRest = DataFrameController.RestFrameTime;
-                        if (frameData.isValid)
+                        unitFrameData = DataFrameController.GetCurrentFrame();
+                        bool newData = DataFrameController.restFrameTime > interpolateFrameRest;
+                        interpolateFrameRest = DataFrameController.restFrameTime;
+                        if (unitFrameData.isValid)
                         {
                             if (AllowVerticalStablization)
                             {
@@ -412,10 +337,10 @@ namespace opdemo
                     break;
                 case PlayMode.FileBvh:
                     {
-                        frameData = DataFrameController.GetCurrentFrame();
-                        bool newData = DataFrameController.RestFrameTime > interpolateFrameRest;
-                        interpolateFrameRest = DataFrameController.RestFrameTime;
-                        if (frameData.isValid)
+                        unitFrameData = DataFrameController.GetCurrentFrame();
+                        bool newData = DataFrameController.restFrameTime > interpolateFrameRest;
+                        interpolateFrameRest = DataFrameController.restFrameTime;
+                        if (unitFrameData.isValid)
                         {
                             if (AllowVerticalStablization)
                             {

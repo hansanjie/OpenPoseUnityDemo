@@ -9,7 +9,8 @@ namespace opdemo
     public class DataFrameController : MonoBehaviour
     {
         // Singleton
-        private static DataFrameController instance;
+        public static DataFrameController instance { get; private set; }
+        private void Awake() { instance = this; }
 
         // UI
         [SerializeField] GameObject PlayButton, PauseButton;
@@ -17,7 +18,7 @@ namespace opdemo
         [SerializeField] Slider FrameSlider;
 
         // Data and frame info
-        private AnimDataSet dataSet = new AnimDataSet();
+        private AnimDataSet dataSet;
         private float frameTime { get { return dataSet.frameTime; } }
         private int frameNumber { get { return dataSet.dataList.Count; } }
         private float speedMultiplier = 1.0f;
@@ -26,21 +27,14 @@ namespace opdemo
         private float accumulateFrameTime = 0f;
 
         // Interface
-        public static string FileName = "C:\\Users\\tz1\\Documents\\OpenPoseUnityDemo\\unitydemo\\Assets\\InputFiles\\new_full.bvh";
-        public static bool IsReady { get { try { return instance.dataSet.isValid; } catch { return false; } } }
-        public static float RestFrameTime { get { return instance.frameTime / instance.speedMultiplier - instance.accumulateFrameTime; } }
-        //public static List<Vector3> DefaultSkeletonData { get { if (IsReady) return instance.dataSet.default_skeleton; else return new List<Vector3>(); } }
-        public static AnimUnitData GetCurrentFrame()
+        public static string FileName = "";
+        public float restFrameTime { get { return frameTime / speedMultiplier - accumulateFrameTime; } }
+        public AnimData GetCurrentFrame()
         {
-            if (IsReady)
-                return instance.dataSet.dataList[instance.currentFrameNumber];
+            if (dataSet != null)
+                return dataSet.dataList[currentFrameNumber];
             else
-                return new AnimUnitData();
-        }
-
-        private void Awake()
-        {
-            instance = this;
+                return null;
         }
 
         private void Start()
@@ -51,7 +45,6 @@ namespace opdemo
 
         private void InitDataJson(string file)
         {
-            //string filePath = Path.Combine(Application.dataPath, file);
             string filePath = file;
             if (File.Exists(filePath))
             {
@@ -60,13 +53,12 @@ namespace opdemo
             }
             else
             {
-                Debug.Log("File not exists");
+                Debug.Log("File not exists: " + filePath);
             }
         }
 
         private void InitDataBvh(string file)
         {
-            //string filePath = Path.Combine(Application.dataPath, file);
             string filePath = file;
             if (File.Exists(filePath))
             {
@@ -75,7 +67,7 @@ namespace opdemo
             }
             else
             {
-                Debug.Log("File not exists");
+                Debug.Log("File not exists: " + filePath);
             }
         }
 
@@ -121,7 +113,7 @@ namespace opdemo
         // User input
         private void InputDetectionUpdate()
         {
-            if (dataSet.isValid)
+            if (dataSet != null)
             {
                 if (Input.GetKeyDown(KeyCode.R)) Stop();
                 if (Input.GetKeyDown(KeyCode.Space)) PlayOrPause();
@@ -134,16 +126,16 @@ namespace opdemo
 
         private void PlayAnimationUpdate()
         {
-            //float totalTime = 0f;
             if (playingAnimation)
             {
-                //totalTime += Time.deltaTime;
                 accumulateFrameTime += Time.deltaTime;
                 while (accumulateFrameTime > frameTime / speedMultiplier) // entering new frame
                 {
                     accumulateFrameTime -= frameTime / speedMultiplier;
                     if (currentFrameNumber < frameNumber - 1) currentFrameNumber++; // anim not finished yet
                     else playingAnimation = false; // anim finished
+
+                    CharacterAnimController.PushNewFrameData(dataSet.dataList[currentFrameNumber]);
                 }
             }
         }
