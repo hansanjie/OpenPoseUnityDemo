@@ -1127,7 +1127,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1551292264119144}
-  m_LocalRotation: {x: 0.065225646, y: -0.002048739, z: -0.03132761, w: 0.99737656}
+  m_LocalRotation: {x: 0.06522565, y: -0.002048739, z: -0.031327613, w: 0.99737656}
   m_LocalPosition: {x: 0.012619802, y: 0.11603942, z: -0.0030051118}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2081,10 +2081,10 @@ Animator:
   m_GameObject: {fileID: 1897395414193620}
   m_Enabled: 0
   m_Avatar: {fileID: 9000000, guid: 21d42b12555283649b6fba32bad9cd30, type: 3}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 22100000, guid: 183a11f2f3819f9478079db85f705833, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
@@ -2101,7 +2101,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27731f34c44c6044d8f850eff4a1a7c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AllowFacialAnim: 1
   facialParamMultiplier: 2
   blendMesh: {fileID: 137908399239847400}
   Joints:

@@ -63,7 +63,7 @@ namespace opdemo {
                         if (frameQueue.Count > 0) {
                             currentFrame = frameQueue.Dequeue();
                             currentFrameTime = 0f; // -= UDPReceiver.AvgFrameTime / frameSpeedMultiplier;
-                            CharacterAnimController.PushNewFrameData(currentFrame);
+                            SceneController.instance.PushNewFrameData(currentFrame, UDPReceiver.AvgFrameTime);
                             //Debug.Log(Time.time - currentFrame.receivedTime);
                             if (Time.time - currentFrame.receivedTime > thresholdFrameDelay) { // play too slow
                                 frameSpeedMultiplier *= latePenaltyMultiplier;

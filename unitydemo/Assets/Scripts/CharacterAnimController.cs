@@ -16,51 +16,52 @@ namespace opdemo
         public static bool AllowVerticalStablization = true;
         public static int CompareDifference = 3;
         public static float VerticalMovementThres = 0.02f;
+
         //private static float DisplayedFrameRate = 0f;
         //private static float LastDisplayedFrameTime = 0f;
 
         // Model settings
-        [SerializeField] bool AllowFacialAnim = true;
         [SerializeField] float facialParamMultiplier = 2f;
         [SerializeField] SkinnedMeshRenderer blendMesh;
         [SerializeField] List<Transform> Joints;
         [SerializeField] List<Transform> LowerFeetIndicators;
-
-        // Multi-person controlling
-        private static Dictionary<int, CharacterAnimController> animControllers = new Dictionary<int, CharacterAnimController>();
-        private static AnimData frameData;
-        public static void PushNewFrameData(AnimData animData)
-        {
-            if (animData != null)
-            {
-                frameData = animData;
-                foreach (AnimUnitData unitData in frameData.units)
-                {
-                    CharacterAnimController animController;
-                    if (animControllers.TryGetValue(unitData.id, out animController)) // unit exist
-                    {
-                        animController.PushNewUnitData(unitData);
-                    } else
-                    {
-                        // new model
-                    }
-                }
-            }
-        }
-
+        
         // Animating data
-        private AnimUnitData unitFrameData = new AnimUnitData();
+        private AnimUnitData unitData = new AnimUnitData();
         private Vector3 InitRootGlobalPosition;
         private Vector3 SavedRootPosition;
         private Vector3 NextRootPosition;
         private Dictionary<int, Quaternion> InitRotations = new Dictionary<int, Quaternion>();
         private Dictionary<int, Quaternion> SavedRotations = new Dictionary<int, Quaternion>();
         private Dictionary<int, Quaternion> NextRotations = new Dictionary<int, Quaternion>();
-        private float interpolateFrameRest;
-        public void PushNewUnitData(AnimUnitData unitData)
+        private float frameTime;
+        private Coroutine currentFrameCoroutine;
+        public void PushNewUnitData(AnimUnitData unitData, float frameTime)
         {
-            // TODO
-        }        
+            this.unitData = unitData;
+            this.frameTime = frameTime;
+
+            if (currentFrameCoroutine != null)
+                StopCoroutine(currentFrameCoroutine);
+
+            switch (Controller.Mode)
+            {
+                case PlayMode.Stream:
+                    if (AllowVerticalStablization) ComputeNewHeightDiff(); // Vertical stablization
+                    currentFrameCoroutine = StartCoroutine(FrameSteppingCoroutine());
+                    break;
+                case PlayMode.FileJson:
+                    if (AllowVerticalStablization) ComputeNewHeightDiff(); // Vertical stablization
+                    currentFrameCoroutine = StartCoroutine(FrameInterpolatingCoroutine());
+                    break;
+                case PlayMode.FileBvh:
+                    if (AllowVerticalStablization) ComputeNewHeightDiff(); // Vertical stablization
+                    currentFrameCoroutine = StartCoroutine(FrameInterpolatingCoroutine());
+                    break;
+                case PlayMode.FileFbx:
+                    break;
+            }
+        }
 
         // Vertical stablization
         private float HeightDiff;
@@ -98,6 +99,16 @@ namespace opdemo
                 }
             }
             return true;
+        }
+        private void ComputeNewHeightDiff()
+        {
+            UpdateModel(1f); // set to next state
+            PushNewFeetHeights(); // calculate feet heights
+            if (IsVerticalStable() || GetLowestFeetHeight() < 0f) // condition: normal standing or foot below ground
+            {
+                HeightDiff -= GetLowestFeetHeight(); // calculate bias
+            }
+            ChangeModelToLastSavedState(); // change the model state back
         }
 
         // Initialize
@@ -172,7 +183,7 @@ namespace opdemo
 
             // Global translation
             SavedRootPosition = Joints[0].localPosition;
-            NextRootPosition = -unitFrameData.totalPosition / 100f;
+            NextRootPosition = -unitData.totalPosition / 100f;
             Joints[0].localPosition = Vector3.Lerp(SavedRootPosition, NextRootPosition, interpolatePoint);
             // Global rotation
             /*Vector3 axisAngle = new Vector3(-frameData.jointAngles[0].x, frameData.jointAngles[0].y, frameData.jointAngles[0].z);
@@ -193,7 +204,7 @@ namespace opdemo
                 if (Joints[i] == null) continue;
                 Joints[i].localRotation = InitRotations[i];
                 //if (i == 0) Joints[0].Rotate(180f, 0f, 0f, Space.World);
-                Joints[i].Rotate(unitFrameData.jointAngles[i], Space.World);
+                Joints[i].Rotate(unitData.jointAngles[i], Space.World);
                 if (i == 0) 
                 {
                     Joints[0].Rotate(180f, 0f, 0f, Space.World); // upside down
@@ -222,16 +233,13 @@ namespace opdemo
 
         private void UpdateFace(float interpolatePoint = 1f)
         {
-            if (AllowFacialAnim)
+            if (blendMesh != null)
             {
-                if (blendMesh != null)
+                for (int i = 0; i < unitData.facialParams.Count; i++)
                 {
-                    for (int i = 0; i < unitFrameData.facialParams.Count; i++)
-                    {
-                        float currentWeight = blendMesh.GetBlendShapeWeight(i);
-                        float interpolatedWeight = Mathf.Lerp(currentWeight, unitFrameData.facialParams[i] * 100f / facialParamMultiplier, interpolatePoint);
-                        blendMesh.SetBlendShapeWeight(i, interpolatedWeight);
-                    }
+                    float currentWeight = blendMesh.GetBlendShapeWeight(i);
+                    float interpolatedWeight = Mathf.Lerp(currentWeight, unitData.facialParams[i] * 100f / facialParamMultiplier, interpolatePoint);
+                    blendMesh.SetBlendShapeWeight(i, interpolatedWeight);
                 }
             }
         }
@@ -242,7 +250,7 @@ namespace opdemo
             UpdateFace(interpolatePoint);
         }
 
-        IEnumerator InsertStepsCoroutine()
+        IEnumerator FrameSteppingCoroutine() // Discrete interpolation
         {
             float subAccumulatedTime = 0f;
             for (int i = InsertStepNumber; i > 0; i--)
@@ -252,116 +260,33 @@ namespace opdemo
                 //Debug.Log(1f / i + " and " + Time.time);
 
                 // Loop until the next step is reached
-                while (subAccumulatedTime < UDPReceiver.AvgFrameTime / InsertStepNumber)
+                while (subAccumulatedTime < frameTime / InsertStepNumber)
                 {
                     subAccumulatedTime += Time.deltaTime;
                     yield return new WaitForEndOfFrame();
                 }
                 // A step is reached
-                subAccumulatedTime -= UDPReceiver.AvgFrameTime / InsertStepNumber;
+                subAccumulatedTime -= frameTime / InsertStepNumber;
+            }
+        }
+
+        IEnumerator FrameInterpolatingCoroutine() // Continuous interpolation
+        {
+            float frameTime = this.frameTime;
+            float passedFrameTime = 0f;
+
+            while (frameTime - passedFrameTime > 0f)
+            {
+                UpdateModelAndFace(Time.deltaTime / (frameTime - passedFrameTime));
+                passedFrameTime += Time.deltaTime;
+                yield return new WaitForEndOfFrame();
             }
         }
 
         // Update is called once per frame
         void Update()
         {
-            switch (Controller.Mode)
-            {
-                case PlayMode.Stream:
-                    {
-                        // Update data
-                        if (StreamFrameController.DataNew)
-                        {
-                            //unitFrameData = StreamFrameController.instance.GetCurrentFrame();
-                            //interpolateFrameRest = UDPReceiver.EstimatedRestFrameTime;
-                            if (unitFrameData.isValid)
-                            {
-                                // Calculate vertical stablization
-                                if (AllowVerticalStablization) {
-                                    UpdateModel(1f); // set to next state
-                                    PushNewFeetHeights(); // calculate feet heights
-                                    if (IsVerticalStable() || GetLowestFeetHeight() < 0f) {
-                                        HeightDiff -= GetLowestFeetHeight();
-                                    }
-                                    ChangeModelToLastSavedState(); // change the model state back
-                                }
-                                // New insert coroutine for new data
-                                //if (AllowInterpolation)
-                                {
-                                    StopCoroutine(InsertStepsCoroutine());
-                                    StartCoroutine(InsertStepsCoroutine());
-                                }
-                            }
-                        }
-                        // Update model every frame for interpolation
-                        /*if (AllowInterpolation)
-                        {
-                            if (frameData.isValid)
-                            {
-                                UpdateModelAndFace(Time.deltaTime / interpolateFrameRest);
-                            }
-                        }*/
-                    }
-                    break;
-                case PlayMode.FileJson:
-                    {
-                        unitFrameData = DataFrameController.GetCurrentFrame();
-                        bool newData = DataFrameController.restFrameTime > interpolateFrameRest;
-                        interpolateFrameRest = DataFrameController.restFrameTime;
-                        if (unitFrameData.isValid)
-                        {
-                            if (AllowVerticalStablization)
-                            {
-                                if (newData) // push new feet data
-                                {
-                                    UpdateModel(1f); // set to next state
-                                    PushNewFeetHeights(); // calculate feet heights
-                                    ChangeModelToLastSavedState(); // change the model state back
-                                }
-
-                                if (IsVerticalStable() || GetLowestFeetHeight() < 0f)
-                                {
-                                    HeightDiff -= GetLowestFeetHeight();
-                                }
-                            }
-                            if (AllowInterpolation)
-                            {
-                                UpdateModelAndFace(Time.deltaTime / interpolateFrameRest);
-                            }
-                            else
-                            {
-                                UpdateModelAndFace();
-                            }
-                        }
-                    }
-                    break;
-                case PlayMode.FileBvh:
-                    {
-                        unitFrameData = DataFrameController.GetCurrentFrame();
-                        bool newData = DataFrameController.restFrameTime > interpolateFrameRest;
-                        interpolateFrameRest = DataFrameController.restFrameTime;
-                        if (unitFrameData.isValid)
-                        {
-                            if (AllowVerticalStablization)
-                            {
-                                if (newData) // push new feet data
-                                {
-                                    UpdateModel(1f); // set to next state
-                                    PushNewFeetHeights(); // calculate feet heights
-                                    ChangeModelToLastSavedState(); // change the model state back
-                                }
-
-                                if (IsVerticalStable() || GetLowestFeetHeight() < 0f)
-                                {
-                                    HeightDiff -= GetLowestFeetHeight();
-                                }
-                            }
-                            if (AllowInterpolation) UpdateModel(Time.deltaTime / interpolateFrameRest);
-                            else UpdateModel();
-                        }
-                    }
-                    break;
-            }
+            
         }
     }
 }

@@ -135,7 +135,7 @@ namespace opdemo
                     if (currentFrameNumber < frameNumber - 1) currentFrameNumber++; // anim not finished yet
                     else playingAnimation = false; // anim finished
 
-                    CharacterAnimController.PushNewFrameData(dataSet.dataList[currentFrameNumber]);
+                    SceneController.instance.PushNewFrameData(dataSet.dataList[currentFrameNumber], frameTime);
                 }
             }
         }
