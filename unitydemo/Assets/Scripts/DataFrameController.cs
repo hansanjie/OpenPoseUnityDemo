@@ -69,6 +69,8 @@ namespace opdemo
             {
                 Debug.Log("File not exists: " + filePath);
             }
+
+            SceneController.instance.PushNewFrameData(dataSet.dataList[currentFrameNumber], frameTime);
         }
 
         // Operations
@@ -152,9 +154,12 @@ namespace opdemo
 
         private void Update()
         {
-            InputDetectionUpdate();
-            PlayAnimationUpdate();
-            UIUpdate();
+            if (dataSet != null)
+            {
+                InputDetectionUpdate();
+                PlayAnimationUpdate();
+                UIUpdate();
+            }
         }
     }
 }

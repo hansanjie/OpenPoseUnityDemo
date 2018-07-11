@@ -41,7 +41,7 @@ namespace opdemo
                 AnimData data = new AnimData();
                 AnimUnitData unitData = new AnimUnitData();
                 unitData.ResetJointAngles();
-                unitData.id = 0;
+                unitData.id = 1;
                 unitData.size = 1f;
                 // Loop each node
                 for (int i = 0; i < hierarchy.nodes.Count; i++)

@@ -3032,6 +3032,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 1897395414193620, guid: 3d6f1b144204e55489371f85d33bdf11, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3d6f1b144204e55489371f85d33bdf11, type: 2}
   m_IsPrefabParent: 0
@@ -9092,6 +9096,11 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1794708017}
+--- !u!4 &1799647310 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4555311470210468, guid: 3d6f1b144204e55489371f85d33bdf11,
+    type: 2}
+  m_PrefabInternal: {fileID: 496291395}
 --- !u!1 &1808476404
 GameObject:
   m_ObjectHideFlags: 0
@@ -9794,7 +9803,7 @@ MonoBehaviour:
   CameraCenter: {fileID: 1944265983}
   CameraJoint: {fileID: 1468451044}
   MyCamera: {fileID: 282840814}
-  HumanCenter: {fileID: 0}
+  HumanCenter: {fileID: 1799647310}
   ControlDistanceSpeed: 1.1
   ControlRotateSpeed: 240
   MinDistance: 0.3

@@ -25,8 +25,9 @@ namespace opdemo
         [SerializeField] SkinnedMeshRenderer blendMesh;
         [SerializeField] List<Transform> Joints;
         [SerializeField] List<Transform> LowerFeetIndicators;
-        
+
         // Animating data
+        private bool dataInitialized = false;
         private AnimUnitData unitData = new AnimUnitData();
         private Vector3 InitRootGlobalPosition;
         private Vector3 SavedRootPosition;
@@ -38,6 +39,7 @@ namespace opdemo
         private Coroutine currentFrameCoroutine;
         public void PushNewUnitData(AnimUnitData unitData, float frameTime)
         {
+            InitBuffers();
             this.unitData = unitData;
             this.frameTime = frameTime;
 
@@ -114,20 +116,31 @@ namespace opdemo
         // Initialize
         void Start()
         {
-            if (Joints.Count == 0)
+            InitBuffers();
+        }
+
+        private void InitBuffers()
+        {
+            if (!dataInitialized)
             {
-                Debug.Log("No Joints attached");
-                return;
+                if (Joints.Count == 0)
+                {
+                    Debug.Log("No Joints attached");
+                    return;
+                }
+                for (int i = 0; i < Joints.Count; i++)
+                {
+                    if (Joints[i] == null) continue;
+                    InitRotations.Add(i, Joints[i].localRotation);
+                    SavedRotations.Add(i, Joints[i].localRotation);
+                    NextRotations.Add(i, Joints[i].localRotation);
+                    //Instantiate(JointObject, Joints[i], false);
+                }
+                InitRootGlobalPosition = Joints[0].position;
+
+                dataInitialized = true;
             }
-            for (int i = 0; i < Joints.Count; i++)
-            {
-                if (Joints[i] == null) continue;
-                InitRotations.Add(i, Joints[i].localRotation);
-                SavedRotations.Add(i, Joints[i].localRotation);
-                NextRotations.Add(i, Joints[i].localRotation);
-                //Instantiate(JointObject, Joints[i], false);
-            }
-            InitRootGlobalPosition = Joints[0].position;
+
         }
 
         // Used in SceneController for camera focus

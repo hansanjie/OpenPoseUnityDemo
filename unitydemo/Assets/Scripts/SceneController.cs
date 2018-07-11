@@ -24,30 +24,35 @@ namespace opdemo
                 foreach (AnimUnitData unitData in frameData.units)
                 {
                     CharacterAnimController animController;
-                    if (animControllers.TryGetValue(unitData.id, out animController)) // unit update
+                    if (!animControllers.TryGetValue(unitData.id, out animController)) // unit enter
                     {
-                        animController.PushNewUnitData(unitData, frameTime);
-                        animUpdated.Add(unitData.id);
-                    }
-                    else // unit enter
-                    {
-                        if (HumanPrefab == null)
+                        Debug.Log("unit enter: " + unitData.id);
+                        if (HumanPrefab != null)
                         {
-                            Debug.Log("No human prefab");
-                            return;
+                            animController = Instantiate(HumanPrefab).GetComponent<CharacterAnimController>();
+                            animControllers.Add(unitData.id, animController);
                         } else
                         {
-                            animControllers.Add(unitData.id, Instantiate(HumanPrefab).GetComponent<CharacterAnimController>());
+                            Debug.LogError("No human model");
+                            return;
                         }
                     }
+                    // unit update
+                    animController.PushNewUnitData(unitData, frameTime);
+                    animUpdated.Add(unitData.id);
                 }
-                foreach(var characterdata in animControllers)
+                List<int> toBeDeleted = new List<int>();
+                foreach(var animController in animControllers)
                 {
-                    if (!animUpdated.Contains(characterdata.Key)) // unit exit
+                    if (!animUpdated.Contains(animController.Key)) // unit exit
                     {
-                        Destroy(characterdata.Value.gameObject);
-                        animControllers.Remove(characterdata.Key);
+                        toBeDeleted.Add(animController.Key);
+                        Debug.Log("unit exit: " + animController.Key);
                     }
+                }
+                foreach(var d in toBeDeleted)
+                {
+                    animControllers.Remove(d);
                 }
             }
         }
