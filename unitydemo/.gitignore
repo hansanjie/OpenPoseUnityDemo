@@ -53,6 +53,6 @@ Corridor/Library/metadata/
 #/Assets/RockVR/
 #/Assets/StreamingAssets/
 /Assets/Plugins/
-VideoCaptureLib_Log.txt
-examples/
-models/
+/VideoCaptureLib_Log.txt
+/examples/
+/models/
