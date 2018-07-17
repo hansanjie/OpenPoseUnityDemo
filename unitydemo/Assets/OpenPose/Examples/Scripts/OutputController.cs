@@ -27,10 +27,18 @@ namespace opdemo.examples
         public void PushNewOutput(string json)
         {
             currentFrame = OPFrame.FromJson(json);
-            for (int i = 0; i < currentFrame.units.Count; i++)
+            int unitsCount = currentFrame.units.Count;
+            for (int i = 0; i < humans.Count; i++)
             {
-                if (i > 2) break;
-                humans[0].PushNewOutputUnitData(currentFrame.units[0]);
+                if (i < unitsCount)
+                {
+                    humans[i].PushNewUnitData(currentFrame.units[i]);
+                    humans[i].SetActive(true);
+                }
+                else
+                {
+                    humans[i].SetActive(false);
+                }
             }
         }
 
