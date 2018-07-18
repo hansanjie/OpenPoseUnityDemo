@@ -12,7 +12,15 @@ namespace opdemo.examples
         {
             base.OPOutput(message, type);
 
-            OutputController.instance.PushNewOutput(message);
+            switch (type)
+            {
+                case 0:
+                    OutputController.instance.PushNewOutput(message);
+                    break;
+                case 1:
+                    OutputController.instance.PushNewImage(message);
+                    break;
+            }
         }
 
         protected override void Awake()

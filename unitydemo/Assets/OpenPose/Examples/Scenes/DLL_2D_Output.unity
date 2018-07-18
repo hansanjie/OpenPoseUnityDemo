@@ -113,7 +113,7 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1001 &19160835
+--- !u!1001 &263718221
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -906,7 +906,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23bf196f62f83a24db37c05d600f279e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mat: {fileID: 2100000, guid: eecd07874377d6744976f9d1c0b06630, type: 2}
+  ImageMaterial: {fileID: 2100000, guid: eecd07874377d6744976f9d1c0b06630, type: 2}
 --- !u!1 &1591974123
 GameObject:
   m_ObjectHideFlags: 0
@@ -979,12 +979,12 @@ CanvasRenderer:
 RectTransform:
   m_PrefabParentObject: {fileID: 224010362344866068, guid: 831a1ca4df7dbba40a51933985fa4083,
     type: 2}
-  m_PrefabInternal: {fileID: 19160835}
+  m_PrefabInternal: {fileID: 263718221}
 --- !u!114 &1602199823 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 114006422057181508, guid: 831a1ca4df7dbba40a51933985fa4083,
     type: 2}
-  m_PrefabInternal: {fileID: 19160835}
+  m_PrefabInternal: {fileID: 263718221}
   m_Script: {fileID: 11500000, guid: 202d02d63c7a5cb4b9387827db6feef1, type: 3}
 --- !u!1001 &1640634577
 Prefab:
@@ -1134,6 +1134,7 @@ MonoBehaviour:
   - {fileID: 470579730}
   - {fileID: 577871625}
   - {fileID: 1129175180}
+  imageDisplayer: {fileID: 1521683301}
 --- !u!4 &1926534993
 Transform:
   m_ObjectHideFlags: 0

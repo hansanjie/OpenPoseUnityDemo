@@ -21,6 +21,7 @@ namespace opdemo.examples
         #endregion
 
         [SerializeField] List<HumanController2D> humans;
+        [SerializeField] ImageDisplayer imageDisplayer;
 
         private OPFrame currentFrame;
 
@@ -40,6 +41,11 @@ namespace opdemo.examples
                     humans[i].SetActive(false);
                 }
             }
+        }
+
+        public void PushNewImage(string json)
+        {
+            imageDisplayer.PushNewImageData(OPImage.FromJson(json));
         }
 
         // Use this for initialization

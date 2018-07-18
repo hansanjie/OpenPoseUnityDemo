@@ -131,6 +131,7 @@ namespace opdemo.dll
             } catch(Exception err)
             {
                 Debug.LogError("OP_RunError: " + err.Message);
+                OP_Shutdown();
             }
 
             if (enableDebug) Debug.Log("OP_End");
