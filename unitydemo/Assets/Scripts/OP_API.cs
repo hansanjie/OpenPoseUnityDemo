@@ -59,6 +59,7 @@ namespace opdemo.dll
         {
             OP_Shutdown();
         }
+
         /// <summary>
         /// Logging messages from OP, callback invoked from OP
         /// </summary>
@@ -75,9 +76,10 @@ namespace opdemo.dll
             }
         }
 
-        protected virtual void OPOutput(string output, int type = 0) 
+        protected virtual void OPOutput(string output, byte[] imageData, int type = 0) 
         {
-            //Debug.Log("OP_Output: " + message);
+            Debug.Log("ok here" + imageData[0].ToString());
+            //Debug.Log("OP_Output: " + output);
         }
         #endregion
 
@@ -86,7 +88,7 @@ namespace opdemo.dll
 
         // Regester type
         private delegate void DebugCallback(string message, int type);
-        private delegate void OutputCallback(string output, int type);
+        private delegate void OutputCallback(string output, byte[] imageData, int type);
 
         // Parameters
         private Dictionary<OPFlag, string> parameters = new Dictionary<OPFlag, string>();

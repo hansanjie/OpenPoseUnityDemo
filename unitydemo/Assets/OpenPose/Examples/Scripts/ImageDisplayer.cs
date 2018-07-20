@@ -24,7 +24,6 @@ namespace opdemo.examples
 
         private void Paint()
         {
-            Debug.Log("paint");
             if (texture.width != imageData.w || texture.height != imageData.h)
             {
                 texture = new Texture2D(imageData.h, imageData.w);

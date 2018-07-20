@@ -2,25 +2,31 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using System;
+
 namespace opdemo.examples
 {
     using opdemo.dll;
 
     public class OPWrapper : OP_API
     {
-        protected override void OPOutput(string message, int type = 0)
+        protected override void OPOutput(string message, byte[] imageData, int type = 0)
         {
-            base.OPOutput(message, type);
+            base.OPOutput(message, imageData, type);
 
-            switch (type)
+            if (OutputController.instance != null)
             {
-                case 0:
-                    OutputController.instance.PushNewOutput(message);
-                    break;
-                case 1:
-                    OutputController.instance.PushNewImage(message);
-                    break;
-            }
+                switch (type)
+                {
+                    case 0:
+                        //OutputController.instance.PushNewOutput(message);
+                        OutputController.instance.PushNewImage(imageData);
+                        break;
+                    case 1:
+                        //OutputController.instance.PushNewImage(message);
+                        break;
+                }
+            }            
         }
 
         protected override void Awake()

@@ -10,14 +10,7 @@ namespace opdemo.examples
     {
         #region Singleton instance
         public static OutputController instance { get; private set; }
-        private void Awake() {
-            if (instance = null) instance = this;
-            else
-            {
-                Destroy(instance);
-                instance = this;
-            }
-        }
+        private void Awake() { instance = this; }
         #endregion
 
         [SerializeField] List<HumanController2D> humans;
@@ -43,9 +36,10 @@ namespace opdemo.examples
             }
         }
 
-        public void PushNewImage(string json)
+        public void PushNewImage(byte[] data)
         {
-            imageDisplayer.PushNewImageData(OPImage.FromJson(json));
+            //imageDisplayer.PushNewImageData(OPImage.FromJson(json));
+            Debug.Log("converted" + System.BitConverter.ToUInt16(data, 0));
         }
 
         // Use this for initialization
