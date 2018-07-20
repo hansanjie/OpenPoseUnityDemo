@@ -233,6 +233,9 @@ namespace opdemo
                 Joints[i].localRotation = Quaternion.Lerp(SavedRotations[i], NextRotations[i], interpolatePoint);
             }
 
+            // Scale
+            Joints[0].localScale = unitData.size * Vector3.one;
+
             // Set offsets
             transform.position = OffsetPosition;
             transform.rotation = OffsetRotation;
